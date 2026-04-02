@@ -51,8 +51,7 @@ function useIsDesktop(): boolean {
   return isDesktop
 }
 
-function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onClose: () => void }) {
-  const isDesktop = useIsDesktop()
+function ToolExpandedBody({ tool }: { tool: Tool }) {
   const [isOutdated, setIsOutdated] = useState(false)
 
   useEffect(() => {
@@ -62,31 +61,12 @@ function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onCl
     }
   }, [tool.lastVerified])
 
-  const content = (
+  return (
     <div className="space-y-5">
       {/* Header */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2 min-w-0">
-            <h2 className="text-xl font-semibold text-foreground">{tool.name}</h2>
-            <AfricaBadge type={tool.africaCompatible} />
-          </div>
-          <a
-            href={tool.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-8 px-2.5 hover:bg-primary/80 transition-all shrink-0"
-          >
-            <span className="hidden sm:inline">Visit {tool.name}</span>
-            <span className="sm:hidden">Visit</span>
-            <ArrowSquareOut size={14} />
-          </a>
-        </div>
-        {tool.affiliate && (
-          <p className="text-xs text-muted-foreground italic">
-            Affiliate link. We may earn a commission at no cost to you.
-          </p>
-        )}
+      <div className="space-y-2">
+        <h2 className="text-xl font-semibold text-foreground">{tool.name}</h2>
+        <AfricaBadge type={tool.africaCompatible} />
       </div>
 
       <Separator />
@@ -99,7 +79,7 @@ function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onCl
       <Separator />
 
       {/* At a glance */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
         <div>
           <p className="text-xs text-muted-foreground uppercase mb-1">Best for</p>
           <div className="flex flex-wrap gap-1">
@@ -191,7 +171,7 @@ function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onCl
         </div>
       )}
 
-      {/* Footer */}
+      {/* Verified date */}
       <div className="flex items-center gap-2">
         {tool.lastVerified && (
           <Tooltip>
@@ -224,15 +204,43 @@ function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onCl
       </div>
     </div>
   )
+}
+
+function ToolExpandedCTA({ tool }: { tool: Tool }) {
+  return (
+    <div className="border-t border-border bg-background p-4">
+      <a
+        href={tool.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full rounded-lg bg-primary text-primary-foreground text-sm font-medium h-11 px-4 hover:bg-primary/80 transition-all"
+      >
+        Visit {tool.name}
+        <ArrowSquareOut size={16} />
+      </a>
+      {tool.affiliate && (
+        <p className="text-xs text-muted-foreground/60 text-center mt-2">
+          Affiliate link. We may earn a commission at no cost to you.
+        </p>
+      )}
+    </div>
+  )
+}
+
+function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onClose: () => void }) {
+  const isDesktop = useIsDesktop()
 
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-        <DialogContent className="max-w-2xl p-0">
+        <DialogContent className="sm:max-w-2xl p-0 flex flex-col overflow-hidden">
           <DialogHeader className="sr-only">
             <DialogTitle>{tool.name}</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="max-h-[80vh] p-6">{content}</ScrollArea>
+          <ScrollArea className="max-h-[70vh] p-6">
+            <ToolExpandedBody tool={tool} />
+          </ScrollArea>
+          <ToolExpandedCTA tool={tool} />
         </DialogContent>
       </Dialog>
     )
@@ -240,11 +248,14 @@ function ToolExpanded({ tool, open, onClose }: { tool: Tool; open: boolean; onCl
 
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
-      <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl p-0">
+      <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl p-0 flex flex-col">
         <SheetHeader className="sr-only">
           <SheetTitle>{tool.name}</SheetTitle>
         </SheetHeader>
-        <ScrollArea className="h-full p-6">{content}</ScrollArea>
+        <ScrollArea className="flex-1 min-h-0 p-5">
+          <ToolExpandedBody tool={tool} />
+        </ScrollArea>
+        <ToolExpandedCTA tool={tool} />
       </SheetContent>
     </Sheet>
   )
