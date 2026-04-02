@@ -9,7 +9,7 @@ export function CountryChip({ code }: CountryChipProps) {
   const name = COUNTRY_NAMES[code] || code
 
   return (
-    <span className="inline-flex items-center text-xs font-medium rounded-full px-2 py-0.5 bg-muted text-muted-foreground">
+    <span className="inline-flex items-center text-xs font-medium rounded-full px-2 py-0.5 text-muted-foreground">
       {flag && <span className="mr-1">{flag}</span>}
       {name}
     </span>

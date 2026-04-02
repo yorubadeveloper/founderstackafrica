@@ -1,60 +1,89 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
+  const [year, setYear] = useState<number | null>(null)
+
+  useEffect(() => {
+    setYear(new Date().getFullYear())
+  }, [])
   return (
-    <footer className="bg-muted border-t border-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col sm:flex-row justify-between gap-8">
+    <footer className="bg-card border-t border-border">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="flex flex-col sm:flex-row justify-between gap-10">
           {/* Left: Logo + tagline */}
-          <div>
-            <p className="font-semibold text-foreground">FounderStack Africa</p>
-            <p className="text-sm text-muted-foreground mt-1">
+          <div className="max-w-xs">
+            <Image
+              src="/logo.png"
+              alt="FounderStack Africa"
+              width={140}
+              height={40}
+              className="h-7 w-auto dark:hidden"
+            />
+            <Image
+              src="/logo-white.png"
+              alt="FounderStack Africa"
+              width={140}
+              height={40}
+              className="h-7 w-auto hidden dark:block"
+            />
+            <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
               The operating system for African founders.
             </p>
           </div>
 
           {/* Right: Links */}
-          <div className="flex gap-8">
-            <div className="space-y-2">
+          <div className="flex flex-wrap gap-8 sm:gap-12">
+            <div className="space-y-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+                Explore
+              </p>
               <Link
                 href="/"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Browse
               </Link>
               <a
                 href="/#flows"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Flows
               </a>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+                Countries
+              </p>
               <Link
                 href="/country/NG"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Nigeria
               </Link>
               <Link
                 href="/country/GH"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Ghana
               </Link>
               <Link
                 href="/country/KE"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Kenya
               </Link>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+                Contribute
+              </p>
               <Link
                 href="/submit"
-                className="block text-sm text-muted-foreground hover:text-foreground"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Submit a Tool
               </Link>
@@ -63,15 +92,15 @@ export function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} FounderStack Africa. All rights reserved.
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-8 border-t border-border">
+          <p className="text-xs text-muted-foreground/60">
+            &copy; {year ?? ""} FounderStack Africa
           </p>
           <a
             href="https://x.com/founderstackafr"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-muted-foreground hover:text-foreground"
+            className="text-xs text-muted-foreground/60 hover:text-foreground transition-all"
           >
             Twitter / X
           </a>

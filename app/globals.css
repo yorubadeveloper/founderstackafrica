@@ -37,7 +37,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Badge color tokens — light mode */
+  /* Badge color tokens - light mode */
   --badge-green-bg: 220 252 231;
   --badge-green-text: 21 128 61;
   --badge-amber-bg: 254 243 199;
@@ -81,7 +81,7 @@
   --sidebar-border: oklch(0.369 0 0);
   --sidebar-ring: oklch(0.556 0 0);
 
-  /* Badge color tokens — dark mode */
+  /* Badge color tokens - dark mode */
   --badge-green-bg: 20 83 45;
   --badge-green-text: 134 239 172;
   --badge-amber-bg: 120 53 15;

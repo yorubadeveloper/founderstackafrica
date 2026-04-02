@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!name) return {}
 
   return {
-    title: `Startup Tools for ${name} | FounderStack Africa`,
-    description: `Tools verified to work in ${name}. Curated for African startup founders.`,
+    title: `Startup Tools for ${name}`,
+    description: `Tools verified to work in ${name}. Payments, banking, hosting, and more. Curated for African startup founders.`,
     openGraph: {
       title: `Startup Tools for ${name} | FounderStack Africa`,
       description: `Tools verified to work in ${name}. Curated for African startup founders.`,
@@ -25,7 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `Startup Tools for ${name} | FounderStack Africa`,
+      site: "@founderstackafr",
+      creator: "@founderstackafr",
+      title: `Startup Tools for ${name}`,
       description: `Tools verified to work in ${name}.`,
     },
     alternates: {

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {}
 
   return {
-    title: `${category.name} Tools for African Startups | FounderStack Africa`,
+    title: `${category.name} Tools for African Startups`,
     description: `${category.description} Curated tools that work in Nigeria, Ghana, and Kenya.`,
     openGraph: {
       title: `${category.name} Tools for African Startups | FounderStack Africa`,
@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${category.name} Tools for African Startups | FounderStack Africa`,
+      site: "@founderstackafr",
+      creator: "@founderstackafr",
+      title: `${category.name} Tools for African Startups`,
       description: category.description,
     },
     alternates: {

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { List, X, CaretDown } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import {
@@ -46,8 +47,23 @@ export function Nav({ categories = [] }: NavProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="font-semibold text-foreground text-sm sm:text-base">
-            FounderStack Africa
+          <Link href="/" className="flex items-center shrink-0">
+            <Image
+              src="/logo.png"
+              alt="FounderStack Africa"
+              width={140}
+              height={40}
+              className="h-7 w-auto dark:hidden"
+              priority
+            />
+            <Image
+              src="/logo-white.png"
+              alt="FounderStack Africa"
+              width={140}
+              height={40}
+              className="h-7 w-auto hidden dark:block"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -102,9 +118,12 @@ export function Nav({ categories = [] }: NavProps) {
             </div>
 
             {/* Flows */}
-            <Button render={<a href="/#flows" />} variant="ghost" className="text-sm">
+            <a
+              href="/#flows"
+              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium h-8 px-2.5 hover:bg-muted hover:text-foreground transition-all"
+            >
               Flows
-            </Button>
+            </a>
 
             {/* Countries dropdown */}
             <div className="relative">
@@ -144,13 +163,19 @@ export function Nav({ categories = [] }: NavProps) {
 
           {/* Desktop right side */}
           <div className="hidden md:flex items-center gap-2">
-            <Button render={<Link href="/submit" />} variant="ghost" className="text-sm">
+            <Link
+              href="/submit"
+              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium h-8 px-2.5 hover:bg-muted hover:text-foreground transition-all"
+            >
               Submit a tool
-            </Button>
+            </Link>
             <ThemeToggle />
-            <Button render={<a href="/#newsletter" />} className="text-sm">
+            <a
+              href="/#newsletter"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-8 px-2.5 hover:bg-primary/80 transition-all"
+            >
               Get updates
-            </Button>
+            </a>
           </div>
 
           {/* Mobile right side */}
@@ -171,11 +196,24 @@ export function Nav({ categories = [] }: NavProps) {
 
       {/* Mobile Sheet */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="right" className="w-[280px] bg-background p-0">
+        <SheetContent side="right" showCloseButton={false} className="w-[280px] bg-background p-0">
           <SheetHeader className="p-4 pb-0">
             <div className="flex items-center justify-between">
-              <SheetTitle className="font-semibold text-foreground text-base">
-                FounderStack Africa
+              <SheetTitle className="flex items-center">
+                <Image
+                  src="/logo.png"
+                  alt="FounderStack Africa"
+                  width={120}
+                  height={34}
+                  className="h-6 w-auto dark:hidden"
+                />
+                <Image
+                  src="/logo-white.png"
+                  alt="FounderStack Africa"
+                  width={120}
+                  height={34}
+                  className="h-6 w-auto hidden dark:block"
+                />
               </SheetTitle>
               <Button
                 variant="ghost"

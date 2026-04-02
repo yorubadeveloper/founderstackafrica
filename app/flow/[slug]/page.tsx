@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!flow) return {}
 
   return {
-    title: `${flow.title} | FounderStack Africa`,
+    title: flow.title,
     description: flow.description,
     openGraph: {
       title: `${flow.title} | FounderStack Africa`,
@@ -24,7 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${flow.title} | FounderStack Africa`,
+      site: "@founderstackafr",
+      creator: "@founderstackafr",
+      title: flow.title,
       description: flow.description,
     },
     alternates: {
