@@ -1,0 +1,81 @@
+import {
+  CheckCircle,
+  Warning,
+  XCircle,
+} from "@phosphor-icons/react/dist/ssr"
+
+export function TrustSection() {
+  return (
+    <section className="bg-background py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-xl sm:text-2xl font-semibold text-foreground text-center mb-10">
+          What &ldquo;Works in Africa&rdquo; means
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {/* Green — Works */}
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgb(var(--badge-green-bg))",
+                  color: "rgb(var(--badge-green-text))",
+                }}
+              >
+                <CheckCircle weight="fill" size={24} />
+              </div>
+            </div>
+            <h3 className="font-semibold text-foreground">Works in Africa</h3>
+            <p className="text-sm text-muted-foreground">
+              Accepts African payment methods, supports local currencies, and is
+              fully operational in at least one African country.
+            </p>
+          </div>
+
+          {/* Amber — Partial */}
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgb(var(--badge-amber-bg))",
+                  color: "rgb(var(--badge-amber-text))",
+                }}
+              >
+                <Warning weight="fill" size={24} />
+              </div>
+            </div>
+            <h3 className="font-semibold text-foreground">Partial support</h3>
+            <p className="text-sm text-muted-foreground">
+              Usable with workarounds. May require a US/UK entity, limited
+              payout options, or have restricted features in Africa.
+            </p>
+          </div>
+
+          {/* Red — Limited */}
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgb(var(--badge-red-bg))",
+                  color: "rgb(var(--badge-red-text))",
+                }}
+              >
+                <XCircle weight="fill" size={24} />
+              </div>
+            </div>
+            <h3 className="font-semibold text-foreground">Limited in Africa</h3>
+            <p className="text-sm text-muted-foreground">
+              Not designed for African markets. Significant barriers to use —
+              listed only for awareness or comparison.
+            </p>
+          </div>
+        </div>
+        <p className="text-center text-xs text-muted-foreground mt-8">
+          Last verified dates on every tool. Updated regularly.
+        </p>
+      </div>
+    </section>
+  )
+}
