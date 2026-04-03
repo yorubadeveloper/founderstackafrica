@@ -27,6 +27,7 @@ const COUNTRIES = [
   { code: "KE", flag: COUNTRY_FLAGS.KE, name: COUNTRY_NAMES.KE },
   { code: "ZA", flag: COUNTRY_FLAGS.ZA, name: COUNTRY_NAMES.ZA },
   { code: "EG", flag: COUNTRY_FLAGS.EG, name: COUNTRY_NAMES.EG },
+  { code: "RW", flag: COUNTRY_FLAGS.RW, name: COUNTRY_NAMES.RW },
 ]
 
 export function Nav({ categories = [] }: NavProps) {
@@ -118,12 +119,12 @@ export function Nav({ categories = [] }: NavProps) {
             </div>
 
             {/* Flows */}
-            <a
-              href="/#flows"
+            <Link
+              href="/flows"
               className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium h-8 px-2.5 hover:bg-muted hover:text-foreground transition-all"
             >
               Flows
-            </a>
+            </Link>
 
             {/* Countries dropdown */}
             <div className="relative">
@@ -235,7 +236,7 @@ export function Nav({ categories = [] }: NavProps) {
               Browse
             </Link>
             <a
-              href="/#flows"
+              href="/flows"
               className="text-base text-foreground py-3 px-4 border-b border-border min-h-[48px] flex items-center"
               onClick={() => setMobileOpen(false)}
             >

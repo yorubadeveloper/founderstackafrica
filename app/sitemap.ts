@@ -11,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE_URL}/flows`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${BASE_URL}/submit`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ]
 
@@ -28,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  const countryRoutes: MetadataRoute.Sitemap = ["NG", "GH", "KE", "ZA", "EG"].map(
+  const countryRoutes: MetadataRoute.Sitemap = ["NG", "GH", "KE", "ZA", "EG", "RW"].map(
     (code) => ({
       url: `${BASE_URL}/country/${code}`,
       lastModified: new Date(),

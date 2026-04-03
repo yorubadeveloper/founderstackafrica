@@ -47,12 +47,12 @@ export function Footer() {
               >
                 Browse
               </Link>
-              <a
-                href="/#flows"
+              <Link
+                href="/flows"
                 className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Flows
-              </a>
+              </Link>
             </div>
             <div className="space-y-3">
               <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
@@ -75,6 +75,12 @@ export function Footer() {
                 className="block text-sm text-muted-foreground hover:text-foreground transition-all"
               >
                 Kenya
+              </Link>
+              <Link
+                href="/country/RW"
+                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
+              >
+                Rwanda
               </Link>
             </div>
             <div className="space-y-3">

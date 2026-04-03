@@ -4,33 +4,52 @@ import { useState } from "react"
 import { Envelope, PaperPlaneTilt, CheckCircle } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 
+type Status = "idle" | "loading" | "success" | "error"
+
 export function EmailCapture() {
   const [email, setEmail] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState("")
+  const [status, setStatus] = useState<Status>("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!email) return
 
-    setLoading(true)
-    setError("")
+    setStatus("loading")
+    setErrorMessage("")
 
     try {
-      // Placeholder for Brevo/Kit API integration
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setSubmitted(true)
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      if (res.ok) {
+        setStatus("success")
+        return
+      }
+
+      if (res.status === 429) {
+        setErrorMessage("Too many requests — please wait a moment.")
+        setStatus("error")
+        return
+      }
+
+      const data = await res.json().catch(() => null)
+      setErrorMessage(
+        data?.error || "Something went wrong. Please try again."
+      )
+      setStatus("error")
     } catch {
-      setError("Something went wrong. Please try again.")
-    } finally {
-      setLoading(false)
+      setErrorMessage("Something went wrong. Please try again.")
+      setStatus("error")
     }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
-      <div className="flex items-center gap-2 transition-opacity duration-300">
+      <div className="flex items-center gap-2 animate-in fade-in duration-300">
         <CheckCircle
           weight="fill"
           size={20}
@@ -53,16 +72,25 @@ export function EmailCapture() {
             type="email"
             placeholder="your@email.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (errorMessage) setErrorMessage("")
+              if (status === "error") setStatus("idle")
+            }}
             required
-            className="w-full h-9 rounded-lg border border-border bg-background pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            disabled={status === "loading"}
+            className="w-full h-9 rounded-lg border border-border bg-background pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none"
           />
         </div>
-        <Button type="submit" disabled={loading} className="shrink-0">
-          {loading ? (
+        <Button
+          type="submit"
+          disabled={status === "loading"}
+          className="shrink-0"
+        >
+          {status === "loading" ? (
             <>
               <span className="size-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              Sending...
+              Subscribing...
             </>
           ) : (
             <>
@@ -72,7 +100,9 @@ export function EmailCapture() {
           )}
         </Button>
       </div>
-      {error && <p className="text-sm text-destructive mt-2">{error}</p>}
+      {errorMessage && (
+        <p className="text-xs text-destructive mt-2">{errorMessage}</p>
+      )}
     </form>
   )
 }

@@ -1,6 +1,6 @@
 export type AfricaCompatible = "Yes" | "Partial" | "No"
 export type ToolBadge = "Featured" | "Verified" | "New" | null
-export type Country = "NG" | "GH" | "KE" | "ZA" | "EG" | "Pan-African"
+export type Country = "NG" | "GH" | "KE" | "ZA" | "EG" | "RW" | "Pan-African"
 export type FreeTier = "Yes" | "No" | "Trial only"
 export type SetupTime = "< 1 hour" | "1 day" | "2–5 days" | "1+ week"
 export type Phase = "Start" | "Money" | "Build" | "Grow" | "Africa-specific"

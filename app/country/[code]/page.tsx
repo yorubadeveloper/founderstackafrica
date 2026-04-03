@@ -8,7 +8,7 @@ interface Props {
   params: Promise<{ code: string }>
 }
 
-const VALID_CODES = ["NG", "GH", "KE", "ZA", "EG"]
+const VALID_CODES = ["NG", "GH", "KE", "ZA", "EG", "RW"]
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { code } = await params

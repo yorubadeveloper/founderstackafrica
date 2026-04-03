@@ -6,6 +6,7 @@ export const COUNTRY_NAMES: Record<string, string> = {
   KE: "Kenya",
   ZA: "South Africa",
   EG: "Egypt",
+  RW: "Rwanda",
   "Pan-African": "Pan-African",
 }
 
@@ -15,6 +16,7 @@ export const COUNTRY_FLAGS: Record<string, string> = {
   KE: "\u{1F1F0}\u{1F1EA}",
   ZA: "\u{1F1FF}\u{1F1E6}",
   EG: "\u{1F1EA}\u{1F1EC}",
+  RW: "\u{1F1F7}\u{1F1FC}",
 }
 
 export const PHASE_ORDER: Phase[] = [

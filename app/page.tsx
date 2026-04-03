@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { HeroSection } from "@/components/HeroSection"
 import { TrustSection } from "@/components/TrustSection"
 import { EmailCapture } from "@/components/EmailCapture"
@@ -61,12 +62,24 @@ export default async function Home() {
       {flows.length > 0 && (
         <section id="flows" className="bg-muted/30 py-20 md:py-28">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
-              Step-by-step
-            </p>
-            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-8">
-              Founder flows
-            </h2>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+                  Step-by-step
+                </p>
+                <h2 className="text-xl sm:text-2xl font-semibold text-foreground">
+                  Founder flows
+                </h2>
+              </div>
+              {flows.length > 4 && (
+                <Link
+                  href="/flows"
+                  className="text-sm font-medium text-foreground hover:text-foreground/70 transition-all"
+                >
+                  View all &rarr;
+                </Link>
+              )}
+            </div>
             <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 -mb-4 scrollbar-hide">
               {flows.slice(0, 4).map((flow) => (
                 <FlowCard key={flow.id} flow={flow} />
