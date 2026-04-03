@@ -12,7 +12,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { ThemeToggle } from "@/components/theme/ThemeToggle"
 import type { Category } from "@/lib/types"
 import { PHASE_ORDER, PHASE_DESCRIPTIONS, COUNTRY_FLAGS, COUNTRY_NAMES } from "@/lib/constants"
 import type { Phase } from "@/lib/types"
@@ -44,7 +43,7 @@ export function Nav({ categories = [] }: NavProps) {
   )
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white/95 dark:bg-zinc-950/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-cream-dark/40 dark:border-border bg-cream/90 dark:bg-zinc-950/95 backdrop-blur-md backdrop-saturate-[1.8]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
@@ -88,7 +87,7 @@ export function Nav({ categories = [] }: NavProps) {
                     className="fixed inset-0 z-40"
                     onClick={() => setBrowseOpen(false)}
                   />
-                  <div className="absolute top-full left-0 z-50 mt-1 w-[600px] bg-card border border-border rounded-xl shadow-sm p-5">
+                  <div className="absolute top-full left-0 z-50 mt-1 w-[600px] bg-cream/95 dark:bg-card backdrop-blur-md border border-cream-dark/40 dark:border-border rounded-xl shadow-lg p-5">
                     <div className="grid grid-cols-2 gap-6">
                       {PHASE_ORDER.map((phase) => (
                         <div key={phase}>
@@ -145,7 +144,7 @@ export function Nav({ categories = [] }: NavProps) {
                     className="fixed inset-0 z-40"
                     onClick={() => setCountriesOpen(false)}
                   />
-                  <div className="absolute top-full left-0 z-50 mt-1 w-[200px] bg-card border border-border rounded-xl shadow-sm p-2">
+                  <div className="absolute top-full left-0 z-50 mt-1 w-[200px] bg-cream/95 dark:bg-card backdrop-blur-md border border-cream-dark/40 dark:border-border rounded-xl shadow-lg p-2">
                     {COUNTRIES.map((c) => (
                       <Link
                         key={c.code}
@@ -170,7 +169,6 @@ export function Nav({ categories = [] }: NavProps) {
             >
               Submit a tool
             </Link>
-            <ThemeToggle />
             <a
               href="/#newsletter"
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-8 px-2.5 hover:bg-primary/80 transition-all"
@@ -181,7 +179,6 @@ export function Nav({ categories = [] }: NavProps) {
 
           {/* Mobile right side */}
           <div className="flex md:hidden items-center gap-1">
-            <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"

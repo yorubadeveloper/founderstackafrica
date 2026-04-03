@@ -79,7 +79,7 @@ export function EmailCapture() {
             }}
             required
             disabled={status === "loading"}
-            className="w-full h-9 rounded-lg border border-border bg-background pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none"
+            className="w-full h-9 rounded-lg border border-cream-dark bg-white/60 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20 disabled:pointer-events-none"
           />
         </div>
         <Button

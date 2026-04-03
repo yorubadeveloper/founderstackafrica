@@ -51,7 +51,7 @@ export default WelcomeEmail
 // ---------------------------------------------------------------------------
 
 const body: React.CSSProperties = {
-  backgroundColor: "#F9F9F7",
+  backgroundColor: "#F2F1E6",
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
   padding: "40px 0",
@@ -67,7 +67,7 @@ const card: React.CSSProperties = {
 }
 
 const heading: React.CSSProperties = {
-  color: "#1A1A1A",
+  color: "#1A1D23",
   fontSize: "24px",
   fontWeight: 600,
   lineHeight: 1.3,
@@ -82,8 +82,8 @@ const paragraph: React.CSSProperties = {
 }
 
 const button: React.CSSProperties = {
-  backgroundColor: "#1A1A1A",
-  color: "#ffffff",
+  backgroundColor: "#1A1D23",
+  color: "#F2F1E6",
   fontSize: "14px",
   fontWeight: 600,
   borderRadius: "8px",
@@ -93,7 +93,7 @@ const button: React.CSSProperties = {
 }
 
 const divider: React.CSSProperties = {
-  borderColor: "#E5E7EB",
+  borderColor: "#E8E7D9",
   margin: "32px 0 24px",
 }
 

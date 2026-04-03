@@ -11,7 +11,7 @@ interface FlowCardProps {
 export function FlowCard({ flow }: FlowCardProps) {
   return (
     <Link href={`/flow/${flow.slug}`} className="snap-start flex-shrink-0 w-[280px] sm:w-auto">
-      <Card className="bg-card border border-border rounded-xl hover:border-border/80 hover:shadow-sm dark:hover:shadow-none dark:hover:border-border/60 transition-all duration-150 cursor-pointer h-full">
+        <Card className="warm-card rounded-xl cursor-pointer h-full">
         <CardContent className="p-5 flex flex-col gap-3">
           <CountryChip code={flow.country} />
           <h3 className="font-medium text-base text-foreground leading-snug">{flow.title}</h3>

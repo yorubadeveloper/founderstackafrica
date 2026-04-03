@@ -6,8 +6,8 @@ import {
 
 export function TrustSection() {
   return (
-    <section className="bg-muted/30 py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-cream-dark/30 dark:bg-muted/30 py-20 md:py-28">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground text-center mb-3">
           Transparency
         </p>
@@ -16,7 +16,7 @@ export function TrustSection() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {/* Green - Works */}
-          <div className="bg-card border border-border rounded-xl p-6 text-center space-y-3">
+          <div className="warm-card rounded-xl p-6 text-center space-y-3">
             <div className="flex justify-center">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -36,7 +36,7 @@ export function TrustSection() {
           </div>
 
           {/* Amber - Partial */}
-          <div className="bg-card border border-border rounded-xl p-6 text-center space-y-3">
+          <div className="warm-card rounded-xl p-6 text-center space-y-3">
             <div className="flex justify-center">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -56,7 +56,7 @@ export function TrustSection() {
           </div>
 
           {/* Red - Limited */}
-          <div className="bg-card border border-border rounded-xl p-6 text-center space-y-3">
+          <div className="warm-card rounded-xl p-6 text-center space-y-3">
             <div className="flex justify-center">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"

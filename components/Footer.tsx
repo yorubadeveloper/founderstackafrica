@@ -11,7 +11,7 @@ export function Footer() {
     setYear(new Date().getFullYear())
   }, [])
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-cream-dark/40 dark:bg-card border-t border-cream-dark/60 dark:border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="flex flex-col sm:flex-row justify-between gap-10">
           {/* Left: Logo + tagline */}

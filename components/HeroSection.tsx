@@ -3,8 +3,18 @@ import { EmailCapture } from "@/components/EmailCapture"
 
 export function HeroSection() {
   return (
-    <section className="bg-background py-20 md:py-32">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section className="relative overflow-hidden bg-background py-20 md:py-32">
+      {/* Dot grid with fade mask */}
+      <div
+        className="dot-grid fade-mask absolute inset-0 z-0"
+        aria-hidden="true"
+      />
+
+      {/* Radial glow */}
+      <div className="hero-glow absolute inset-0 z-0" aria-hidden="true" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">
           Nigeria &middot; Ghana &middot; Kenya
         </p>

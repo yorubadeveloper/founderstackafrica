@@ -60,8 +60,8 @@ export default async function Home() {
 
       {/* 2. Founder Flows */}
       {flows.length > 0 && (
-        <section id="flows" className="bg-muted/30 py-20 md:py-28">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="flows" className="relative overflow-hidden bg-cream-dark/30 dark:bg-muted/30 py-20 md:py-28">
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <div>
                 <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
@@ -90,8 +90,8 @@ export default async function Home() {
       )}
 
       {/* 3. Category grid */}
-      <section id="categories" className="bg-background py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="categories" className="relative overflow-hidden bg-background py-20 md:py-28">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
             Categories
           </p>
@@ -128,8 +128,8 @@ export default async function Home() {
 
       {/* 4. Featured tools */}
       {featuredTools.length > 0 && (
-        <section className="bg-muted/30 py-20 md:py-28">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden bg-cream-dark/30 dark:bg-muted/30 py-20 md:py-28">
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
               Hand-picked
             </p>
@@ -149,8 +149,14 @@ export default async function Home() {
       <TrustSection />
 
       {/* 6. Newsletter CTA */}
-      <section id="newsletter" className="bg-background py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section id="newsletter" className="relative overflow-hidden bg-background py-20 md:py-28">
+        {/* Dot grid with fade mask */}
+        <div
+          className="dot-grid fade-mask absolute inset-0 z-0"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">
             Stay in the loop
           </p>

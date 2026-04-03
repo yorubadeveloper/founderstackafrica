@@ -256,7 +256,7 @@ export function ToolCard({ tool }: ToolCardProps) {
   return (
     <>
       <Card
-        className="relative bg-card border border-border rounded-xl hover:border-border/80 hover:shadow-sm dark:hover:shadow-none dark:hover:border-border/60 transition-all duration-150 cursor-pointer group h-full"
+        className="relative warm-card rounded-xl cursor-pointer group h-full"
         onClick={() => setOpen(true)}
       >
         <CardContent className="p-5 flex flex-col h-full">
