@@ -1,21 +1,21 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Submit a Tool",
+  title: "Submit a Startup Tool",
   description:
-    "Know a tool that works for African founders? Submit it for review and we will verify it.",
+    "Know a tool that works for African founders? Submit it for review. We verify every tool for availability in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda before listing.",
   openGraph: {
-    title: "Submit a Tool | FounderStack Africa",
+    title: "Submit a Startup Tool | FounderStack Africa",
     description:
-      "Know a tool that works for African founders? Submit it for review.",
+      "Submit a tool for African founders. We verify every tool for availability across African markets before listing.",
     url: "https://founderstackafrica.com/submit",
   },
   twitter: {
     card: "summary_large_image",
     site: "@founderstackafr",
     creator: "@founderstackafr",
-    title: "Submit a Tool",
-    description: "Know a tool that works for African founders? Submit it for review.",
+    title: "Submit a Startup Tool",
+    description: "Submit a tool for African founders. We verify every tool before listing.",
   },
   alternates: {
     canonical: "https://founderstackafrica.com/submit",

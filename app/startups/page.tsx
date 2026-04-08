@@ -3,13 +3,13 @@ import { fetchStartups } from "@/lib/notion"
 import { StartupCard } from "@/components/StartupCard"
 
 export const metadata: Metadata = {
-  title: "African Startups | FounderStack Africa",
+  title: "African Startups Directory",
   description:
-    "Discover innovative startups building across Africa. Browse by sector, stage, and country.",
+    "Discover innovative startups building across Africa. Browse by sector (fintech, healthtech, edtech, agritech), funding stage (pre-seed, seed, Series A), and country (Nigeria, Ghana, Kenya, South Africa, Egypt, Rwanda).",
   openGraph: {
-    title: "African Startups | FounderStack Africa",
+    title: "African Startups Directory | FounderStack Africa",
     description:
-      "Discover innovative startups building across Africa. Browse by sector, stage, and country.",
+      "Discover innovative startups building across Africa. Browse by sector, funding stage, and country.",
     url: "https://founderstackafrica.com/startups",
   },
   alternates: {
@@ -49,6 +49,29 @@ export default async function StartupsPage() {
           </div>
         )}
       </div>
+
+      {/* JSON-LD: ItemList */}
+      {startups.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "African Startups Directory",
+              description:
+                "Directory of innovative startups building across Africa in fintech, healthtech, edtech, agritech, logistics, e-commerce, SaaS, and more.",
+              numberOfItems: startups.length,
+              itemListElement: startups.slice(0, 50).map((s, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: s.name,
+                url: `https://founderstackafrica.com/startup/${s.slug}`,
+              })),
+            }),
+          }}
+        />
+      )}
     </section>
   )
 }

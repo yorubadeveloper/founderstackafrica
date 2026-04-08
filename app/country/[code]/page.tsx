@@ -16,19 +16,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!name) return {}
 
   return {
-    title: `Startup Tools for ${name}`,
-    description: `Tools verified to work in ${name}. Payments, banking, hosting, and more. Curated for African startup founders.`,
+    title: `Best Startup Tools for ${name}`,
+    description: `Curated startup tools verified to work in ${name}. Browse payments, banking, hosting, compliance, incorporation, and marketing tools for ${name}-based founders.`,
     openGraph: {
-      title: `Startup Tools for ${name} | FounderStack Africa`,
-      description: `Tools verified to work in ${name}. Curated for African startup founders.`,
+      title: `Best Startup Tools for ${name} | FounderStack Africa`,
+      description: `Curated startup tools verified to work in ${name}. Payments, banking, hosting, compliance, and more.`,
       url: `https://founderstackafrica.com/country/${code}`,
     },
     twitter: {
       card: "summary_large_image",
       site: "@founderstackafr",
       creator: "@founderstackafr",
-      title: `Startup Tools for ${name}`,
-      description: `Tools verified to work in ${name}.`,
+      title: `Best Startup Tools for ${name}`,
+      description: `Curated startup tools verified to work in ${name}. Payments, banking, hosting, and more.`,
     },
     alternates: {
       canonical: `https://founderstackafrica.com/country/${code}`,

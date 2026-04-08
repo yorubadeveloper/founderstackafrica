@@ -3,13 +3,13 @@ import { fetchFlows } from "@/lib/notion"
 import { FlowCard } from "@/components/FlowCard"
 
 export const metadata: Metadata = {
-  title: "Founder Flows | FounderStack Africa",
+  title: "Startup Guides for African Founders",
   description:
-    "Step-by-step guides for African founders — incorporation, payments, banking, and more. Each flow is vetted to work across African markets.",
+    "Step-by-step guides for registering a company, setting up payments, opening a business bank account, choosing hosting, and more. Each guide is built for founders in Nigeria, Ghana, Kenya, South Africa, and across Africa.",
   openGraph: {
-    title: "Founder Flows | FounderStack Africa",
+    title: "Startup Guides for African Founders | FounderStack Africa",
     description:
-      "Step-by-step guides for African founders — incorporation, payments, banking, and more.",
+      "Step-by-step guides for incorporation, payments, banking, hosting, and more. Built for African founders.",
     url: "https://founderstackafrica.com/flows",
   },
   alternates: {

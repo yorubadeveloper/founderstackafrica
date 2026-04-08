@@ -19,12 +19,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const startup = await fetchStartupBySlug(slug)
   if (!startup) return {}
+
+  const countries = startup.country
+    .map((c) => COUNTRY_NAMES[c] || c)
+    .join(", ")
+  const sectors = startup.sector.join(", ")
+  const desc = startup.tagline
+    ? `${startup.tagline}. ${startup.stage} ${sectors} startup based in ${countries || "Africa"}. Learn about ${startup.name}, their funding, team, and more.`
+    : startup.description?.slice(0, 160)
+
   return {
-    title: `${startup.name} | FounderStack Africa`,
-    description: startup.tagline || startup.description?.slice(0, 160),
+    title: `${startup.name} - ${sectors || "African"} Startup Profile`,
+    description: desc,
     openGraph: {
       title: `${startup.name} | FounderStack Africa`,
-      description: startup.tagline,
+      description: startup.tagline || startup.description?.slice(0, 160),
       url: `https://founderstackafrica.com/startup/${slug}`,
     },
     alternates: {
@@ -190,6 +199,30 @@ export default async function StartupPage({ params }: Props) {
             </div>
           </div>
         )}
+
+        {/* JSON-LD: Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: startup.name,
+              description: startup.tagline || startup.description,
+              ...(startup.website && { url: startup.website }),
+              ...(startup.founded && { foundingDate: String(startup.founded) }),
+              ...(startup.country.length > 0 && {
+                areaServed: startup.country.map((c) => ({
+                  "@type": "Place",
+                  name: COUNTRY_NAMES[c] || c,
+                })),
+              }),
+              ...(startup.sector.length > 0 && {
+                keywords: startup.sector.join(", "),
+              }),
+            }),
+          }}
+        />
       </div>
     </section>
   )

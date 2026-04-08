@@ -17,7 +17,7 @@ const figtree = Figtree({
 const SITE_URL = "https://founderstackafrica.com"
 const SITE_NAME = "FounderStack Africa"
 const SITE_DESCRIPTION =
-  "Curated tools and guides vetted to work in Nigeria, Ghana, and Kenya. The decision engine for African startup founders."
+  "Find the right startup tools, connect with African startups, and follow step-by-step guides built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda."
 const TWITTER_HANDLE = "@founderstackafr"
 
 export const viewport: Viewport = {
@@ -47,12 +47,32 @@ export const metadata: Metadata = {
     "Nigeria startup tools",
     "Ghana startup tools",
     "Kenya startup tools",
+    "South Africa startup tools",
+    "Egypt startup tools",
+    "Rwanda startup tools",
     "founder tools",
     "African founders",
     "startup stack",
     "business tools Africa",
     "payment tools Africa",
+    "Paystack alternatives",
+    "Flutterwave alternatives",
+    "African fintech tools",
     "SaaS Africa",
+    "no-code tools Africa",
+    "startup incorporation Africa",
+    "African startup directory",
+    "startup funding Africa",
+    "venture capital Africa",
+    "African tech ecosystem",
+    "startup guides Africa",
+    "how to start a startup in Nigeria",
+    "how to start a startup in Kenya",
+    "how to register a company in Africa",
+    "best tools for African startups",
+    "startup resources Africa",
+    "African startup ecosystem",
+    "Pan-African startups",
     "FounderStack Africa",
   ],
   category: "Technology",

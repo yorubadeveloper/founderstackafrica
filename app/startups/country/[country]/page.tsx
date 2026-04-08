@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { country } = await params
   const countryName = COUNTRY_NAMES[country] || country
   return {
-    title: `Startups in ${countryName} | FounderStack Africa`,
-    description: `Discover startups building in ${countryName}. Browse African startups by country.`,
+    title: `Startups in ${countryName}`,
+    description: `Discover startups building in ${countryName}. Browse ${countryName} startups by sector (fintech, healthtech, edtech, agritech) and funding stage (pre-seed, seed, Series A, and beyond).`,
     openGraph: {
       title: `Startups in ${countryName} | FounderStack Africa`,
-      description: `Discover startups building in ${countryName}.`,
+      description: `Discover startups building in ${countryName}. Browse by sector and funding stage.`,
       url: `https://founderstackafrica.com/startups/country/${country}`,
     },
     alternates: {

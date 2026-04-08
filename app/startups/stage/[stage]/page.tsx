@@ -24,11 +24,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { stage: stageSlug } = await params
   const stageName = unslugify(stageSlug, ALL_STAGES) || stageSlug
   return {
-    title: `${stageName} Startups | FounderStack Africa`,
-    description: `African startups at the ${stageName} stage. Discover companies building across the continent.`,
+    title: `${stageName} African Startups`,
+    description: `Browse African startups at the ${stageName.toLowerCase()} stage. Discover ${stageName.toLowerCase()} companies across fintech, healthtech, edtech, agritech, and more building in Nigeria, Ghana, Kenya, South Africa, and beyond.`,
     openGraph: {
-      title: `${stageName} Startups | FounderStack Africa`,
-      description: `African startups at the ${stageName} stage.`,
+      title: `${stageName} African Startups | FounderStack Africa`,
+      description: `Browse African startups at the ${stageName.toLowerCase()} stage across multiple sectors and countries.`,
       url: `https://founderstackafrica.com/startups/stage/${stageSlug}`,
     },
     alternates: {

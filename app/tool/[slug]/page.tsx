@@ -15,6 +15,8 @@ import { CountryChip } from "@/components/CountryChip"
 import { OutdatedBadge } from "@/components/OutdatedBadge"
 import { ToolCard } from "@/components/ToolCard"
 
+import { COUNTRY_NAMES } from "@/lib/constants"
+
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -23,12 +25,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const tool = await fetchToolBySlug(slug)
   if (!tool) return {}
+
+  const countries = tool.countries
+    .map((c) => COUNTRY_NAMES[c] || c)
+    .join(", ")
+  const desc = tool.tagline
+    ? `${tool.tagline}. Verified for ${countries || "African markets"}. Compare alternatives, read setup details, and see if ${tool.name} works for your startup.`
+    : tool.description?.slice(0, 160)
+
   return {
-    title: `${tool.name} | FounderStack Africa`,
-    description: tool.tagline || tool.description?.slice(0, 160),
+    title: `${tool.name} - Startup Tool Review for African Founders`,
+    description: desc,
     openGraph: {
       title: `${tool.name} | FounderStack Africa`,
-      description: tool.tagline,
+      description: tool.tagline || tool.description?.slice(0, 160),
       url: `https://founderstackafrica.com/tool/${slug}`,
     },
     alternates: {
@@ -68,7 +78,7 @@ export default async function ToolPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back link */}
         <Link
-          href="/"
+          href="/tools"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft size={14} />
@@ -266,6 +276,30 @@ export default async function ToolPage({ params }: Props) {
             </div>
           </div>
         )}
+
+        {/* JSON-LD: SoftwareApplication */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: tool.name,
+              description: tool.tagline || tool.description,
+              url: tool.url,
+              applicationCategory: "BusinessApplication",
+              ...(tool.freeTier === "Yes" && {
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "USD",
+                },
+              }),
+              aggregateRating: undefined,
+              operatingSystem: "Web",
+            }),
+          }}
+        />
       </div>
     </section>
   )

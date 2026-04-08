@@ -10,13 +10,13 @@ import { PHASE_ORDER, PHASE_DESCRIPTIONS } from "@/lib/constants"
 import type { Phase } from "@/lib/types"
 
 export const metadata: Metadata = {
-  title: "FounderStack Africa | Tools That Work in Africa",
+  title: "FounderStack Africa | Startup Tools, Guides & Startups for African Founders",
   description:
-    "Curated tools, startups, and step-by-step guides vetted to work in Nigeria, Ghana, Kenya, and beyond. The decision engine for African startup founders.",
+    "Find the right startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and more. Built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
   openGraph: {
-    title: "FounderStack Africa | Tools That Work in Africa",
+    title: "FounderStack Africa | Startup Tools, Guides & Startups for African Founders",
     description:
-      "Curated tools, startups, and guides vetted for African markets. The decision engine for African startup founders.",
+      "Find the right startup tools, discover African startups, and follow proven guides for payments, incorporation, banking, and more across African markets.",
     url: "https://founderstackafrica.com",
   },
   alternates: {
@@ -100,7 +100,7 @@ export default async function Home() {
             name: "FounderStack Africa",
             url: "https://founderstackafrica.com",
             description:
-              "Curated tools, startups, and guides vetted to work in Africa. The decision engine for African startup founders.",
+              "Find startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and compliance across Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
             inLanguage: "en",
             potentialAction: {
               "@type": "SearchAction",
@@ -128,7 +128,7 @@ export default async function Home() {
               "https://x.com/founderstackafr",
             ],
             description:
-              "The decision engine for African startup founders. Curated tools, startups, and guides vetted to work in Africa.",
+              "The startup resource hub for African founders. Curated tools, startups, and step-by-step guides for payments, incorporation, banking, hosting, and more across African markets.",
           }),
         }}
       />
@@ -140,9 +140,9 @@ export default async function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "FounderStack Africa - Tools That Work in Africa",
+            name: "FounderStack Africa - Startup Tools, Guides & African Startups",
             description:
-              "Browse curated startup tools and companies across payments, banking, incorporation, hosting, and more. Each tool is verified to work in African markets.",
+              "Browse curated startup tools across payments, banking, incorporation, hosting, compliance, and more. Discover African startups by sector, stage, and country. Follow step-by-step guides built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
             url: "https://founderstackafrica.com",
             isPartOf: {
               "@type": "WebSite",
@@ -151,7 +151,7 @@ export default async function Home() {
             },
             about: {
               "@type": "Thing",
-              name: "Startup tools and companies for African founders",
+              name: "Startup tools, African startups, and founder guides for African markets",
             },
             audience: {
               "@type": "Audience",

@@ -6,13 +6,13 @@ import { PHASE_ORDER, PHASE_DESCRIPTIONS } from "@/lib/constants"
 import type { Phase } from "@/lib/types"
 
 export const metadata: Metadata = {
-  title: "All Tools | FounderStack Africa",
+  title: "Startup Tools for African Founders",
   description:
-    "Browse every tool in the FounderStack Africa directory. Curated tools vetted to work in Nigeria, Ghana, Kenya, and beyond.",
+    "Browse curated startup tools for payments, banking, incorporation, hosting, compliance, marketing, and more. Every tool is verified to work in Nigeria, Ghana, Kenya, South Africa, Egypt, or Rwanda.",
   openGraph: {
-    title: "All Tools | FounderStack Africa",
+    title: "Startup Tools for African Founders | FounderStack Africa",
     description:
-      "Browse every tool in the FounderStack Africa directory. Curated tools vetted to work in Nigeria, Ghana, Kenya, and beyond.",
+      "Browse curated startup tools for payments, banking, incorporation, hosting, compliance, and more. Verified for African markets.",
     url: "https://founderstackafrica.com/tools",
   },
   alternates: {
@@ -129,6 +129,27 @@ export default async function ToolsPage() {
           )
         })}
       </div>
+
+      {/* JSON-LD: ItemList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Startup Tools for African Founders",
+            description:
+              "Curated directory of startup tools for payments, banking, incorporation, hosting, compliance, marketing, and more across African markets.",
+            numberOfItems: tools.length,
+            itemListElement: tools.slice(0, 50).map((tool, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: tool.name,
+              url: `https://founderstackafrica.com/tool/${tool.slug}`,
+            })),
+          }),
+        }}
+      />
     </section>
   )
 }

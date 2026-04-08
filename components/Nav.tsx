@@ -10,15 +10,10 @@ export function Nav() {
   const pathname = usePathname()
   const [subscribeOpen, setSubscribeOpen] = useState(false)
 
-  // Active tab detection
-  const isExplore =
-    pathname === "/" ||
-    pathname.startsWith("/tool") ||
-    pathname.startsWith("/category") ||
-    pathname.startsWith("/country") ||
-    pathname === "/submit"
+  // Active tab detection — Explore is the default/fallback
   const isFlows = pathname.startsWith("/flow")
   const isStartups = pathname.startsWith("/startup")
+  const isExplore = !isFlows && !isStartups
 
   return (
     <>
