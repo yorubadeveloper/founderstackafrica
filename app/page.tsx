@@ -1,15 +1,9 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { HeroSection } from "@/components/HeroSection"
-import { TrustSection } from "@/components/TrustSection"
-import { EmailCapture } from "@/components/EmailCapture"
 import { CategoryCard } from "@/components/CategoryCard"
-import { FlowCard } from "@/components/FlowCard"
-import { ToolCard } from "@/components/ToolCard"
+import { ToolMarquee } from "@/components/ToolMarquee"
 import {
   fetchCategories,
-  fetchFeaturedTools,
-  fetchFlows,
   fetchAllTools,
 } from "@/lib/notion"
 import { PHASE_ORDER, PHASE_DESCRIPTIONS } from "@/lib/constants"
@@ -18,11 +12,11 @@ import type { Phase } from "@/lib/types"
 export const metadata: Metadata = {
   title: "FounderStack Africa | Tools That Work in Africa",
   description:
-    "Curated tools and step-by-step guides vetted to work in Nigeria, Ghana, and Kenya. Payments, banking, incorporation, hosting, and more. The decision engine for African startup founders.",
+    "Curated tools, startups, and step-by-step guides vetted to work in Nigeria, Ghana, Kenya, and beyond. The decision engine for African startup founders.",
   openGraph: {
     title: "FounderStack Africa | Tools That Work in Africa",
     description:
-      "Curated tools and step-by-step guides vetted to work in Nigeria, Ghana, and Kenya. The decision engine for African startup founders.",
+      "Curated tools, startups, and guides vetted for African markets. The decision engine for African startup founders.",
     url: "https://founderstackafrica.com",
   },
   alternates: {
@@ -31,10 +25,8 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const [categories, featuredTools, flows, allTools] = await Promise.all([
+  const [categories, allTools] = await Promise.all([
     fetchCategories(),
-    fetchFeaturedTools(),
-    fetchFlows(),
     fetchAllTools(),
   ])
 
@@ -55,63 +47,35 @@ export default async function Home() {
 
   return (
     <>
-      {/* 1. Hero */}
+      {/* Hero */}
       <HeroSection />
 
-      {/* 2. Founder Flows */}
-      {flows.length > 0 && (
-        <section id="flows" className="relative overflow-hidden bg-cream-dark/30 dark:bg-muted/30 py-20 md:py-28">
-          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
-                  Step-by-step
-                </p>
-                <h2 className="text-xl sm:text-2xl font-semibold text-foreground">
-                  Founder flows
-                </h2>
-              </div>
-              {flows.length > 4 && (
-                <Link
-                  href="/flows"
-                  className="text-sm font-medium text-foreground hover:text-foreground/70 transition-all"
-                >
-                  View all &rarr;
-                </Link>
-              )}
-            </div>
-            <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 -mb-4 scrollbar-hide">
-              {flows.slice(0, 4).map((flow) => (
-                <FlowCard key={flow.id} flow={flow} />
-              ))}
-            </div>
+      {/* Tool marquee — 3 rows */}
+      {allTools.length > 0 && (
+        <section className="bg-background">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ToolMarquee tools={allTools} categories={categories} />
           </div>
         </section>
       )}
 
-      {/* 3. Category grid */}
-      <section id="categories" className="relative overflow-hidden bg-background py-20 md:py-28">
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
-            Categories
-          </p>
-          <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-12">
-            Browse the stack
-          </h2>
+      {/* Categories */}
+      <section id="categories" className="bg-background py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {PHASE_ORDER.map((phase) => {
             const phaseCats = categoriesByPhase[phase]
             if (!phaseCats || phaseCats.length === 0) return null
             return (
-              <div key={phase} className="mb-10">
+              <div key={phase} className="mb-10 last:mb-0">
                 <div className="mb-4">
-                  <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                  <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                     {phase}
-                  </h3>
-                  <p className="text-xs text-muted-foreground/60">
+                  </h2>
+                  <p className="text-xs text-muted-foreground/60 mt-0.5">
                     {PHASE_DESCRIPTIONS[phase]}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
                   {phaseCats.map((cat) => (
                     <CategoryCard
                       key={cat.id}
@@ -126,52 +90,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 4. Featured tools */}
-      {featuredTools.length > 0 && (
-        <section className="relative overflow-hidden bg-cream-dark/30 dark:bg-muted/30 py-20 md:py-28">
-          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
-              Hand-picked
-            </p>
-            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-8">
-              Founder picks
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-              {featuredTools.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 5. Trust section */}
-      <TrustSection />
-
-      {/* 6. Newsletter CTA */}
-      <section id="newsletter" className="relative overflow-hidden bg-background py-20 md:py-28">
-        {/* Dot grid with fade mask */}
-        <div
-          className="dot-grid fade-mask absolute inset-0 z-0"
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">
-            Stay in the loop
-          </p>
-          <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-2">
-            New tools and guides, straight to your inbox.
-          </h2>
-          <p className="text-sm text-muted-foreground mb-8">
-            No spam. Unsubscribe any time.
-          </p>
-          <div className="flex justify-center">
-            <EmailCapture />
-          </div>
-        </div>
-      </section>
-
       {/* JSON-LD: WebSite */}
       <script
         type="application/ld+json"
@@ -182,7 +100,7 @@ export default async function Home() {
             name: "FounderStack Africa",
             url: "https://founderstackafrica.com",
             description:
-              "Curated tools and step-by-step guides vetted to work in Nigeria, Ghana, and Kenya. The decision engine for African startup founders.",
+              "Curated tools, startups, and guides vetted to work in Africa. The decision engine for African startup founders.",
             inLanguage: "en",
             potentialAction: {
               "@type": "SearchAction",
@@ -210,7 +128,7 @@ export default async function Home() {
               "https://x.com/founderstackafr",
             ],
             description:
-              "The decision engine for African startup founders. Curated tools and guides vetted to work in Nigeria, Ghana, and Kenya.",
+              "The decision engine for African startup founders. Curated tools, startups, and guides vetted to work in Africa.",
           }),
         }}
       />
@@ -224,7 +142,7 @@ export default async function Home() {
             "@type": "CollectionPage",
             name: "FounderStack Africa - Tools That Work in Africa",
             description:
-              "Browse curated startup tools across payments, banking, incorporation, hosting, and more. Each tool is verified to work in African markets.",
+              "Browse curated startup tools and companies across payments, banking, incorporation, hosting, and more. Each tool is verified to work in African markets.",
             url: "https://founderstackafrica.com",
             isPartOf: {
               "@type": "WebSite",
@@ -233,7 +151,7 @@ export default async function Home() {
             },
             about: {
               "@type": "Thing",
-              name: "Startup tools for African founders",
+              name: "Startup tools and companies for African founders",
             },
             audience: {
               "@type": "Audience",

@@ -4,12 +4,16 @@ import type {
   Category,
   Tool,
   Flow,
+  Startup,
   AfricaCompatible,
   ToolBadge,
   Country,
   FreeTier,
   SetupTime,
   Phase,
+  StartupSector,
+  StartupStage,
+  StartupCountry,
 } from "./types"
 
 const notion = new Client({ auth: process.env.NOTION_SECRET })
@@ -90,6 +94,14 @@ function getRelation(page: Record<string, unknown>, prop: string): string[] {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getPageEmoji(result: any): string {
+  if (result.icon?.type === "emoji") {
+    return result.icon.emoji || ""
+  }
+  return ""
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapCategory(result: any): Category {
   const props = result.properties
   return {
@@ -111,6 +123,8 @@ function mapTool(result: any): Tool {
   return {
     id: result.id,
     name: getTitle(props, "Name"),
+    slug: getRichText(props, "Slug"),
+    emoji: getPageEmoji(result),
     tagline: getRichText(props, "Tagline"),
     description: getRichText(props, "Description"),
     url: getUrl(props, "URL"),
@@ -139,6 +153,7 @@ function mapFlow(result: any): Flow {
     id: result.id,
     title: getTitle(props, "Title"),
     slug: getRichText(props, "Slug"),
+    emoji: getPageEmoji(result),
     description: getRichText(props, "Description"),
     country: (getSelect(props, "Country") || "Pan-African") as Country | "Pan-African",
     steps: getRichText(props, "Steps"),
@@ -259,6 +274,26 @@ export async function fetchFeaturedTools(): Promise<Tool[]> {
   }
 }
 
+export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("tools")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_TOOLS_DB_ID!,
+      filter: {
+        property: "Slug",
+        rich_text: { equals: slug },
+      },
+    })
+    if (res.results.length === 0) return null
+    return mapTool(res.results[0])
+  } catch (e) {
+    console.error("fetchToolBySlug failed:", e)
+    return null
+  }
+}
+
 export async function fetchFlows(country?: string): Promise<Flow[]> {
   "use cache"
   cacheLife("hours")
@@ -320,6 +355,163 @@ export async function fetchFlow(slug: string): Promise<Flow | null> {
     return mapFlow(res.results[0])
   } catch (e) {
     console.error("fetchFlow failed:", e)
+    return null
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Startups
+// ---------------------------------------------------------------------------
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapStartup(result: any): Startup {
+  const props = result.properties
+  return {
+    id: result.id,
+    name: getTitle(props, "Name"),
+    slug: getRichText(props, "Slug"),
+    emoji: getPageEmoji(result),
+    tagline: getRichText(props, "Tagline"),
+    sector: getMultiSelect(props, "Sector") as StartupSector[],
+    stage: (getSelect(props, "Stage") || "Seed") as StartupStage,
+    country: getMultiSelect(props, "Country") as StartupCountry[],
+    description: getRichText(props, "Description"),
+    founded: getNumber(props, "Founded") || null,
+    founders: getRichText(props, "Founders"),
+    totalRaised: getRichText(props, "Total Raised"),
+    website: getUrl(props, "Website"),
+    featured: getCheckbox(props, "Featured"),
+    hiring: getCheckbox(props, "Hiring"),
+    published: getCheckbox(props, "Published"),
+  }
+}
+
+export async function fetchStartups(): Promise<Startup[]> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        property: "Published",
+        checkbox: { equals: true },
+      },
+      sorts: [{ property: "Name", direction: "ascending" }],
+    })
+    return res.results.map(mapStartup)
+  } catch (e) {
+    console.error("fetchStartups failed:", e)
+    return []
+  }
+}
+
+export async function fetchFeaturedStartups(): Promise<Startup[]> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Featured", checkbox: { equals: true } },
+        ],
+      },
+      page_size: 6,
+    })
+    return res.results.map(mapStartup)
+  } catch (e) {
+    console.error("fetchFeaturedStartups failed:", e)
+    return []
+  }
+}
+
+export async function fetchStartupsBySector(sector: string): Promise<Startup[]> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Sector", multi_select: { contains: sector } },
+        ],
+      },
+      sorts: [{ property: "Name", direction: "ascending" }],
+    })
+    return res.results.map(mapStartup)
+  } catch (e) {
+    console.error("fetchStartupsBySector failed:", e)
+    return []
+  }
+}
+
+export async function fetchStartupsByCountry(country: string): Promise<Startup[]> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Country", multi_select: { contains: country } },
+        ],
+      },
+      sorts: [{ property: "Name", direction: "ascending" }],
+    })
+    return res.results.map(mapStartup)
+  } catch (e) {
+    console.error("fetchStartupsByCountry failed:", e)
+    return []
+  }
+}
+
+export async function fetchStartupsByStage(stage: string): Promise<Startup[]> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Stage", select: { equals: stage } },
+        ],
+      },
+      sorts: [{ property: "Name", direction: "ascending" }],
+    })
+    return res.results.map(mapStartup)
+  } catch (e) {
+    console.error("fetchStartupsByStage failed:", e)
+    return []
+  }
+}
+
+export async function fetchStartupBySlug(slug: string): Promise<Startup | null> {
+  "use cache"
+  cacheLife("hours")
+  cacheTag("startups")
+  try {
+    const res = await notion.databases.query({
+      database_id: process.env.NOTION_STARTUPS_DB_ID!,
+      filter: {
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Slug", rich_text: { equals: slug } },
+        ],
+      },
+    })
+    if (res.results.length === 0) return null
+    return mapStartup(res.results[0])
+  } catch (e) {
+    console.error("fetchStartupBySlug failed:", e)
     return null
   }
 }

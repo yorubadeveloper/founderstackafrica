@@ -68,9 +68,16 @@ export default async function FlowPage({ params }: Props) {
       <section className="bg-background py-16 md:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h1 className="text-3xl sm:text-4xl font-semibold text-foreground mb-3">
-              {flow.title}
-            </h1>
+            <div className="flex items-start gap-4 mb-3">
+              {flow.emoji && (
+                <span className="text-4xl md:text-5xl leading-none">{flow.emoji}</span>
+              )}
+              <div className="flex-1 min-w-0">
+                <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
+                  {flow.title}
+                </h1>
+              </div>
+            </div>
             <div className="mb-3">
               <CountryChip code={flow.country} />
             </div>
@@ -87,7 +94,7 @@ export default async function FlowPage({ params }: Props) {
 
       {/* Related flows */}
       {relatedFlows.length > 0 && (
-        <section className="bg-muted/50 py-16 md:py-24">
+        <section className="section-alt py-16 md:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-6">
               More guides

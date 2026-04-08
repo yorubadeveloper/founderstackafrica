@@ -5,38 +5,38 @@
 
 :root {
   --radius: 0.625rem;
-  /* Warm cream palette — inspired by Fushly */
-  --background: #F2F1E6;
-  --foreground: #1A1D23;
-  --card: rgba(255, 255, 255, 0.7);
-  --card-foreground: #1A1D23;
-  --popover: rgba(255, 255, 255, 0.85);
-  --popover-foreground: #1A1D23;
-  --primary: #1A1D23;
-  --primary-foreground: #F2F1E6;
-  --secondary: rgba(242, 241, 230, 0.6);
-  --secondary-foreground: #1A1D23;
-  --muted: #E8E7D9;
-  --muted-foreground: rgba(26, 29, 35, 0.55);
-  --accent: #E8E7D9;
-  --accent-foreground: #1A1D23;
+  /* Clean off-white palette — inspired by startups.gallery */
+  --background: #faf9f6;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(232, 231, 217, 0.6);
-  --input: rgba(232, 231, 217, 0.6);
-  --ring: rgba(26, 29, 35, 0.2);
+  --border: rgba(0, 0, 0, 0.06);
+  --input: rgba(0, 0, 0, 0.06);
+  --ring: rgba(0, 0, 0, 0.08);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: #F2F1E6;
-  --sidebar-foreground: #1A1D23;
-  --sidebar-primary: #1A1D23;
-  --sidebar-primary-foreground: #F2F1E6;
-  --sidebar-accent: #E8E7D9;
-  --sidebar-accent-foreground: #1A1D23;
-  --sidebar-border: rgba(232, 231, 217, 0.6);
-  --sidebar-ring: rgba(26, 29, 35, 0.2);
+  --sidebar: #faf9f6;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #18181b;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: rgba(0, 0, 0, 0.06);
+  --sidebar-ring: rgba(0, 0, 0, 0.08);
 
   /* Badge color tokens - light mode */
   --badge-green-bg: 220 252 231;
@@ -130,10 +130,6 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-figtree), system-ui, sans-serif;
-
-  /* Custom colors */
-  --color-cream: #F2F1E6;
-  --color-cream-dark: #E8E7D9;
 }
 
 /* Scrollbar hide utility */
@@ -154,14 +150,14 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c5c4b6;
+  background: #d4d4d8;
   border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb {
   background: oklch(0.4 0 0);
 }
 * {
-  scrollbar-color: #c5c4b6 transparent;
+  scrollbar-color: #d4d4d8 transparent;
 }
 .dark * {
   scrollbar-color: oklch(0.4 0 0) transparent;
@@ -174,106 +170,175 @@ body {
 }
 
 /* -----------------------------------------------------------------------
-   Dot grid background pattern (hero + newsletter only)
+   Shadow card system — inspired by startups.gallery
+   Shadow-ring borders instead of CSS borders. Clean, modern, no gradients.
    ----------------------------------------------------------------------- */
-.dot-grid {
-  background-image: radial-gradient(
-    circle,
-    rgba(26, 29, 35, 0.08) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
+.shadow-card {
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
-.dark .dot-grid {
-  background-image: radial-gradient(
-    circle,
-    oklch(0.4 0 0 / 0.3) 1px,
-    transparent 1px
-  );
+.shadow-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
-/* -----------------------------------------------------------------------
-   Fade mask — dissolves grid edges
-   ----------------------------------------------------------------------- */
-.fade-mask {
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
-  );
-}
-
-/* -----------------------------------------------------------------------
-   Radial glow (hero center)
-   ----------------------------------------------------------------------- */
-.hero-glow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 40%,
-    rgba(232, 231, 217, 0.5) 0%,
-    rgba(242, 241, 230, 0.2) 40%,
-    transparent 70%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-.dark .hero-glow::before {
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 40%,
-    oklch(0.3 0.06 250 / 0.15) 0%,
-    oklch(0.25 0.04 200 / 0.08) 40%,
-    transparent 70%
-  );
-}
-
-/* -----------------------------------------------------------------------
-   Warm card styles — translucent white over cream
-   ----------------------------------------------------------------------- */
-.warm-card {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(232, 231, 217, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-}
-
-.warm-card:hover {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  transform: translateY(-2px);
-}
-
-.dark .warm-card {
+.dark .shadow-card {
   background: var(--card);
-  border-color: var(--border);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.dark .warm-card:hover {
+.dark .shadow-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Shadow button — for CTAs matching startups.gallery style */
+.shadow-btn {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.15s ease;
+}
+
+.shadow-btn:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Shadow dropdown — for nav dropdowns */
+.shadow-dropdown {
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.dark .shadow-dropdown {
   background: var(--card);
-  box-shadow: none;
-  transform: none;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Section alt background — subtle off-white shift for alternating sections */
+.section-alt {
+  background: #f5f4f1;
+}
+
+.dark .section-alt {
+  background: var(--muted);
+}
+
+/* -----------------------------------------------------------------------
+   Marquee animations — 3-row tool ticker
+   ----------------------------------------------------------------------- */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 60s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 60s linear infinite;
+}
+
+/* -----------------------------------------------------------------------
+   Segmented pill tab nav — inspired by startups.gallery
+   Centered pill container with tabs separated by subtle dividers.
+   ----------------------------------------------------------------------- */
+.nav-pill-tabs {
+  display: inline-flex;
+  align-items: center;
+  background: #f4f4f5;
+  border-radius: 9999px;
+  padding: 3px;
+  gap: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.nav-pill-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  color: #71717a;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-pill-tab:hover {
+  color: #18181b;
+}
+
+.nav-pill-tab-active {
+  background: #ffffff;
+  color: #18181b;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.dark .nav-pill-tabs {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dark .nav-pill-tab-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fafafa;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo tilt on hover */
+.logo-tilt {
+  transition: transform 0.3s ease;
+}
+.logo-tilt:hover {
+  transform: rotate(-3deg);
 }
 
 /* -----------------------------------------------------------------------
    Prefers reduced motion
    ----------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .warm-card:hover {
+  .shadow-card:hover {
+    transform: none !important;
+  }
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none !important;
+  }
+  .logo-tilt:hover {
     transform: none !important;
   }
 }

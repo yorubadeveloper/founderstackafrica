@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Envelope, PaperPlaneTilt, CheckCircle } from "@phosphor-icons/react"
-import { Button } from "@/components/ui/button"
 
 type Status = "idle" | "loading" | "success" | "error"
 
@@ -79,13 +78,14 @@ export function EmailCapture() {
             }}
             required
             disabled={status === "loading"}
-            className="w-full h-9 rounded-lg border border-cream-dark bg-white/60 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20 disabled:pointer-events-none"
+            className="w-full h-9 rounded-lg bg-white pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20 disabled:pointer-events-none"
+            style={{ boxShadow: "0 0 0 1px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)" }}
           />
         </div>
-        <Button
+        <button
           type="submit"
           disabled={status === "loading"}
-          className="shrink-0"
+          className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-9 px-3 shadow-btn hover:bg-primary/90 transition-all disabled:pointer-events-none disabled:opacity-60"
         >
           {status === "loading" ? (
             <>
@@ -98,7 +98,7 @@ export function EmailCapture() {
               <PaperPlaneTilt size={16} />
             </>
           )}
-        </Button>
+        </button>
       </div>
       {errorMessage && (
         <p className="text-xs text-destructive mt-2">{errorMessage}</p>

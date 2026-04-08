@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme/ThemeProvider"
 import { Nav } from "@/components/Nav"
 import { Footer } from "@/components/Footer"
-import { fetchCategories } from "@/lib/notion"
 import "./globals.css"
 
 const figtree = Figtree({
@@ -110,8 +109,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const categories = await fetchCategories()
-
   return (
     <html
       lang="en"
@@ -126,7 +123,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <Nav categories={categories} />
+            <Nav />
             <main className="flex-1">{children}</main>
             <Footer />
           </TooltipProvider>

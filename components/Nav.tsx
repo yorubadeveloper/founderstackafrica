@@ -3,263 +3,118 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { List, X, CaretDown } from "@phosphor-icons/react"
-import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
-import type { Category } from "@/lib/types"
-import { PHASE_ORDER, PHASE_DESCRIPTIONS, COUNTRY_FLAGS, COUNTRY_NAMES } from "@/lib/constants"
-import type { Phase } from "@/lib/types"
+import { usePathname } from "next/navigation"
+import { SubscribeModal } from "@/components/SubscribeModal"
 
-interface NavProps {
-  categories?: Category[]
-}
+export function Nav() {
+  const pathname = usePathname()
+  const [subscribeOpen, setSubscribeOpen] = useState(false)
 
-const COUNTRIES = [
-  { code: "NG", flag: COUNTRY_FLAGS.NG, name: COUNTRY_NAMES.NG },
-  { code: "GH", flag: COUNTRY_FLAGS.GH, name: COUNTRY_NAMES.GH },
-  { code: "KE", flag: COUNTRY_FLAGS.KE, name: COUNTRY_NAMES.KE },
-  { code: "ZA", flag: COUNTRY_FLAGS.ZA, name: COUNTRY_NAMES.ZA },
-  { code: "EG", flag: COUNTRY_FLAGS.EG, name: COUNTRY_NAMES.EG },
-  { code: "RW", flag: COUNTRY_FLAGS.RW, name: COUNTRY_NAMES.RW },
-]
-
-export function Nav({ categories = [] }: NavProps) {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [browseOpen, setBrowseOpen] = useState(false)
-  const [countriesOpen, setCountriesOpen] = useState(false)
-
-  const categoriesByPhase = PHASE_ORDER.reduce<Record<Phase, Category[]>>(
-    (acc, phase) => {
-      acc[phase] = categories.filter((c) => c.phase === phase)
-      return acc
-    },
-    {} as Record<Phase, Category[]>
-  )
+  // Active tab detection
+  const isExplore =
+    pathname === "/" ||
+    pathname.startsWith("/tool") ||
+    pathname.startsWith("/category") ||
+    pathname.startsWith("/country") ||
+    pathname === "/submit"
+  const isFlows = pathname.startsWith("/flow")
+  const isStartups = pathname.startsWith("/startup")
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cream-dark/40 dark:border-border bg-cream/90 dark:bg-zinc-950/95 backdrop-blur-md backdrop-saturate-[1.8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
-            <Image
-              src="/logo.png"
-              alt="FounderStack Africa"
-              width={140}
-              height={40}
-              className="h-7 w-auto dark:hidden"
-              priority
-            />
-            <Image
-              src="/logo-white.png"
-              alt="FounderStack Africa"
-              width={140}
-              height={40}
-              className="h-7 w-auto hidden dark:block"
-              priority
-            />
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {/* Browse dropdown */}
-            <div className="relative">
-              <Button
-                variant="ghost"
-                className="text-sm"
-                onClick={() => {
-                  setBrowseOpen(!browseOpen)
-                  setCountriesOpen(false)
-                }}
-              >
-                Browse
-                <CaretDown size={14} />
-              </Button>
-              {browseOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setBrowseOpen(false)}
-                  />
-                  <div className="absolute top-full left-0 z-50 mt-1 w-[600px] bg-cream/95 dark:bg-card backdrop-blur-md border border-cream-dark/40 dark:border-border rounded-xl shadow-lg p-5">
-                    <div className="grid grid-cols-2 gap-6">
-                      {PHASE_ORDER.map((phase) => (
-                        <div key={phase}>
-                          <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                            {phase}
-                          </p>
-                          <p className="text-xs text-muted-foreground/60 mb-2">
-                            {PHASE_DESCRIPTIONS[phase]}
-                          </p>
-                          <div className="space-y-1">
-                            {categoriesByPhase[phase]?.map((cat) => (
-                              <Link
-                                key={cat.id}
-                                href={`/category/${cat.slug}`}
-                                className="block text-sm text-foreground hover:text-foreground/70 py-1"
-                                onClick={() => setBrowseOpen(false)}
-                              >
-                                {cat.icon} {cat.name}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Flows */}
-            <Link
-              href="/flows"
-              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium h-8 px-2.5 hover:bg-muted hover:text-foreground transition-all"
-            >
-              Flows
+    <>
+      <header
+        className="sticky top-0 z-50"
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Desktop: single row — logo | centered pills | Get updates */}
+          <div className="hidden md:flex items-center justify-between h-14 mt-4">
+            {/* Logo */}
+            <Link href="/" className="flex items-center shrink-0 logo-tilt">
+              <Image
+                src="/logo.png"
+                alt="FounderStack Africa"
+                width={160}
+                height={46}
+                className="h-8 w-auto"
+                priority
+              />
             </Link>
 
-            {/* Countries dropdown */}
-            <div className="relative">
-              <Button
-                variant="ghost"
-                className="text-sm"
-                onClick={() => {
-                  setCountriesOpen(!countriesOpen)
-                  setBrowseOpen(false)
-                }}
-              >
-                Countries
-                <CaretDown size={14} />
-              </Button>
-              {countriesOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setCountriesOpen(false)}
-                  />
-                  <div className="absolute top-full left-0 z-50 mt-1 w-[200px] bg-cream/95 dark:bg-card backdrop-blur-md border border-cream-dark/40 dark:border-border rounded-xl shadow-lg p-2">
-                    {COUNTRIES.map((c) => (
-                      <Link
-                        key={c.code}
-                        href={`/country/${c.code}`}
-                        className="flex items-center gap-2 text-sm text-foreground hover:bg-muted rounded-lg px-3 py-2"
-                        onClick={() => setCountriesOpen(false)}
-                      >
-                        {c.flag} {c.name}
-                      </Link>
-                    ))}
-                  </div>
-                </>
-              )}
+            {/* Center: Segmented pill tabs */}
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <div className="nav-pill-tabs">
+                <Link
+                  href="/"
+                  className={`nav-pill-tab ${isExplore ? "nav-pill-tab-active" : ""}`}
+                >
+                  Explore
+                </Link>
+                <Link
+                  href="/flows"
+                  className={`nav-pill-tab ${isFlows ? "nav-pill-tab-active" : ""}`}
+                >
+                  Flows
+                </Link>
+                <Link
+                  href="/startups"
+                  className={`nav-pill-tab ${isStartups ? "nav-pill-tab-active" : ""}`}
+                >
+                  Startups
+                </Link>
+              </div>
             </div>
-          </nav>
 
-          {/* Desktop right side */}
-          <div className="hidden md:flex items-center gap-2">
-            <Link
-              href="/submit"
-              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium h-8 px-2.5 hover:bg-muted hover:text-foreground transition-all"
-            >
-              Submit a tool
-            </Link>
-            <a
-              href="/#newsletter"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-8 px-2.5 hover:bg-primary/80 transition-all"
+            {/* Right: Get updates */}
+            <button
+              onClick={() => setSubscribeOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-sm font-medium h-8 px-4 shadow-btn hover:bg-primary/90 transition-all"
             >
               Get updates
-            </a>
+            </button>
           </div>
 
-          {/* Mobile right side */}
-          <div className="flex md:hidden items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="min-w-[44px] min-h-[44px]"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-            >
-              <List size={24} />
-            </Button>
+          {/* Mobile: logo row */}
+          <div className="flex md:hidden items-center justify-center h-12">
+            <Link href="/" className="flex items-center logo-tilt">
+              <Image
+                src="/logo.png"
+                alt="FounderStack Africa"
+                width={120}
+                height={34}
+                className="h-6 w-auto"
+                priority
+              />
+            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Sheet */}
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="right" showCloseButton={false} className="w-[280px] bg-background p-0">
-          <SheetHeader className="p-4 pb-0">
-            <div className="flex items-center justify-between">
-              <SheetTitle className="flex items-center">
-                <Image
-                  src="/logo.png"
-                  alt="FounderStack Africa"
-                  width={120}
-                  height={34}
-                  className="h-6 w-auto dark:hidden"
-                />
-                <Image
-                  src="/logo-white.png"
-                  alt="FounderStack Africa"
-                  width={120}
-                  height={34}
-                  className="h-6 w-auto hidden dark:block"
-                />
-              </SheetTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Close menu"
-              >
-                <X size={20} />
-              </Button>
-            </div>
-          </SheetHeader>
-          <Separator className="mt-4" />
-          <nav className="flex flex-col">
+        {/* Mobile: pill tabs below logo */}
+        <div className="flex md:hidden justify-center pb-2.5">
+          <div className="nav-pill-tabs">
             <Link
               href="/"
-              className="text-base text-foreground py-3 px-4 border-b border-border min-h-[48px] flex items-center"
-              onClick={() => setMobileOpen(false)}
+              className={`nav-pill-tab ${isExplore ? "nav-pill-tab-active" : ""}`}
             >
-              Browse
+              Explore
             </Link>
-            <a
+            <Link
               href="/flows"
-              className="text-base text-foreground py-3 px-4 border-b border-border min-h-[48px] flex items-center"
-              onClick={() => setMobileOpen(false)}
+              className={`nav-pill-tab ${isFlows ? "nav-pill-tab-active" : ""}`}
             >
               Flows
-            </a>
-            <Separator />
-            {COUNTRIES.map((c) => (
-              <Link
-                key={c.code}
-                href={`/country/${c.code}`}
-                className="text-base text-foreground py-3 px-4 border-b border-border min-h-[48px] flex items-center"
-                onClick={() => setMobileOpen(false)}
-              >
-                {c.flag} {c.name}
-              </Link>
-            ))}
-            <Link
-              href="/submit"
-              className="text-base text-foreground py-3 px-4 border-b border-border min-h-[48px] flex items-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Submit a Tool
             </Link>
-          </nav>
-        </SheetContent>
-      </Sheet>
-    </header>
+            <Link
+              href="/startups"
+              className={`nav-pill-tab ${isStartups ? "nav-pill-tab-active" : ""}`}
+            >
+              Startups
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Subscribe modal */}
+      <SubscribeModal open={subscribeOpen} onOpenChange={setSubscribeOpen} />
+    </>
   )
 }

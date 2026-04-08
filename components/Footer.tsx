@@ -3,6 +3,25 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { slugify } from "@/lib/utils"
+
+const SECTORS = [
+  "Fintech",
+  "Healthtech",
+  "Edtech",
+  "Agritech",
+  "Logistics",
+  "E-commerce",
+  "SaaS",
+]
+
+const STAGES = [
+  "Pre-seed",
+  "Seed",
+  "Series A",
+  "Series B",
+  "Bootstrapped",
+]
 
 export function Footer() {
   const [year, setYear] = useState<number | null>(null)
@@ -10,106 +29,139 @@ export function Footer() {
   useEffect(() => {
     setYear(new Date().getFullYear())
   }, [])
+
   return (
-    <footer className="bg-cream-dark/40 dark:bg-card border-t border-cream-dark/60 dark:border-border">
+    <footer className="bg-white dark:bg-card" style={{ boxShadow: "inset 0 1px 0 0 rgba(0,0,0,0.06)" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="flex flex-col sm:flex-row justify-between gap-10">
-          {/* Left: Logo + tagline */}
-          <div className="max-w-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10">
+          {/* Logo + tagline */}
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <Image
               src="/logo.png"
               alt="FounderStack Africa"
               width={140}
               height={40}
-              className="h-7 w-auto dark:hidden"
+              className="h-7 w-auto"
             />
-            <Image
-              src="/logo-white.png"
-              alt="FounderStack Africa"
-              width={140}
-              height={40}
-              className="h-7 w-auto hidden dark:block"
-            />
-            <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+            <p className="text-sm text-muted-foreground mt-3 leading-relaxed max-w-xs">
               The operating system for African founders.
             </p>
           </div>
 
-          {/* Right: Links */}
-          <div className="flex flex-wrap gap-8 sm:gap-12">
-            <div className="space-y-3">
-              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
-                Explore
-              </p>
+          {/* Explore */}
+          <div className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+              Explore
+            </p>
+            <Link
+              href="/tools"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              All tools
+            </Link>
+            <Link
+              href="/startups"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Startups
+            </Link>
+            <Link
+              href="/flows"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Flows
+            </Link>
+            <Link
+              href="/submit"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Submit a tool
+            </Link>
+          </div>
+
+          {/* Countries */}
+          <div className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+              Countries
+            </p>
+            <Link href="/country/NG" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Nigeria
+            </Link>
+            <Link href="/country/GH" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Ghana
+            </Link>
+            <Link href="/country/KE" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Kenya
+            </Link>
+            <Link href="/country/ZA" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              South Africa
+            </Link>
+            <Link href="/country/EG" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Egypt
+            </Link>
+            <Link href="/country/RW" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Rwanda
+            </Link>
+          </div>
+
+          {/* Sectors — now using dedicated routes */}
+          <div className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+              Sectors
+            </p>
+            {SECTORS.map((s) => (
               <Link
-                href="/"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
+                key={s}
+                href={`/startups/sector/${slugify(s)}`}
+                className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Browse
+                {s}
               </Link>
+            ))}
+          </div>
+
+          {/* Stages — now using dedicated routes */}
+          <div className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+              Stages
+            </p>
+            {STAGES.map((s) => (
               <Link
-                href="/flows"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
+                key={s}
+                href={`/startups/stage/${slugify(s)}`}
+                className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Flows
+                {s}
               </Link>
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
-                Countries
-              </p>
-              <Link
-                href="/country/NG"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
-              >
-                Nigeria
-              </Link>
-              <Link
-                href="/country/GH"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
-              >
-                Ghana
-              </Link>
-              <Link
-                href="/country/KE"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
-              >
-                Kenya
-              </Link>
-              <Link
-                href="/country/RW"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
-              >
-                Rwanda
-              </Link>
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
-                Contribute
-              </p>
-              <Link
-                href="/submit"
-                className="block text-sm text-muted-foreground hover:text-foreground transition-all"
-              >
-                Submit a Tool
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-8 border-t border-border">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8" style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}>
           <p className="text-xs text-muted-foreground/60">
             &copy; {year ?? ""} FounderStack Africa
           </p>
-          <a
-            href="https://x.com/founderstackafr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-muted-foreground/60 hover:text-foreground transition-all"
-          >
-            Twitter / X
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://x.com/founderstackafr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground/60 hover:text-foreground transition-colors"
+            >
+              Twitter / X
+            </a>
+            <span className="text-xs text-muted-foreground/40">&middot;</span>
+            <a
+              href="https://x.com/BukunmiOA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground/60 hover:text-foreground transition-colors"
+              style={{ fontWeight: 500 }}
+            >
+              Crafted by Bukunmi
+            </a>
+          </div>
         </div>
       </div>
     </footer>

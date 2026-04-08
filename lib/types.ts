@@ -20,6 +20,8 @@ export interface Category {
 export interface Tool {
   id: string
   name: string
+  slug: string
+  emoji: string
   tagline: string
   description: string
   url: string
@@ -44,9 +46,57 @@ export interface Flow {
   id: string
   title: string
   slug: string
+  emoji: string
   description: string
   country: Country | "Pan-African"
   steps: string
   relatedToolIds: string[]
+  published: boolean
+}
+
+export type StartupSector =
+  | "Fintech"
+  | "Healthtech"
+  | "Edtech"
+  | "Agritech"
+  | "Logistics"
+  | "E-commerce"
+  | "SaaS"
+  | "Cleantech"
+  | "Proptech"
+  | "Insurtech"
+  | "Media & Entertainment"
+  | "HR & Recruitment"
+  | "Legal Tech"
+  | "Other"
+
+export type StartupStage =
+  | "Idea"
+  | "Pre-seed"
+  | "Seed"
+  | "Series A"
+  | "Series B"
+  | "Series C+"
+  | "Bootstrapped"
+  | "Acquired"
+
+export type StartupCountry = "NG" | "GH" | "KE" | "ZA" | "EG" | "RW" | "Pan-African"
+
+export interface Startup {
+  id: string
+  name: string
+  slug: string
+  emoji: string
+  tagline: string
+  sector: StartupSector[]
+  stage: StartupStage
+  country: StartupCountry[]
+  description: string
+  founded: number | null
+  founders: string
+  totalRaised: string
+  website: string
+  featured: boolean
+  hiring: boolean
   published: boolean
 }

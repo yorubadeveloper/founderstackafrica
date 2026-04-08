@@ -51,7 +51,7 @@ export default WelcomeEmail
 // ---------------------------------------------------------------------------
 
 const body: React.CSSProperties = {
-  backgroundColor: "#F2F1E6",
+  backgroundColor: "#faf9f6",
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
   padding: "40px 0",
@@ -67,7 +67,7 @@ const card: React.CSSProperties = {
 }
 
 const heading: React.CSSProperties = {
-  color: "#1A1D23",
+  color: "#18181b",
   fontSize: "24px",
   fontWeight: 600,
   lineHeight: 1.3,
@@ -75,15 +75,15 @@ const heading: React.CSSProperties = {
 }
 
 const paragraph: React.CSSProperties = {
-  color: "#6B7280",
+  color: "#71717a",
   fontSize: "16px",
   lineHeight: 1.6,
   margin: "0 0 24px",
 }
 
 const button: React.CSSProperties = {
-  backgroundColor: "#1A1D23",
-  color: "#F2F1E6",
+  backgroundColor: "#18181b",
+  color: "#fafafa",
   fontSize: "14px",
   fontWeight: 600,
   borderRadius: "8px",
@@ -93,18 +93,18 @@ const button: React.CSSProperties = {
 }
 
 const divider: React.CSSProperties = {
-  borderColor: "#E8E7D9",
+  borderColor: "#e4e4e7",
   margin: "32px 0 24px",
 }
 
 const footer: React.CSSProperties = {
-  color: "#9CA3AF",
+  color: "#a1a1aa",
   fontSize: "13px",
   lineHeight: 1.5,
   margin: 0,
 }
 
 const footerLink: React.CSSProperties = {
-  color: "#9CA3AF",
+  color: "#a1a1aa",
   textDecoration: "underline",
 }
