@@ -67,20 +67,6 @@ export function Nav() {
               Get updates
             </button>
           </div>
-
-          {/* Mobile: logo row */}
-          <div className="flex md:hidden items-center justify-center h-12">
-            <Link href="/" className="flex items-center logo-tilt">
-              <Image
-                src="/logo.png"
-                alt="FounderStack Africa"
-                width={120}
-                height={34}
-                className="h-6 w-auto"
-                priority
-              />
-            </Link>
-          </div>
         </div>
 
         {/* Mobile: pill tabs below logo */}
