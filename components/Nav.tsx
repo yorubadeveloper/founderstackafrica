@@ -67,6 +67,8 @@ export function Nav() {
               Get updates
             </button>
           </div>
+           <div className="flex md:hidden items-center justify-center h-12">
+          </div>
         </div>
 
         {/* Mobile: pill tabs below logo */}
