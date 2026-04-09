@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const stageName = unslugify(stageSlug, ALL_STAGES) || stageSlug
   return {
     title: `${stageName} African Startups`,
-    description: `Browse African startups at the ${stageName.toLowerCase()} stage. Discover ${stageName.toLowerCase()} companies across fintech, healthtech, edtech, agritech, and more building in Nigeria, Ghana, Kenya, South Africa, and beyond.`,
+    description: `Browse African startups at the ${stageName.toLowerCase()} stage. Discover ${stageName.toLowerCase()} companies across fintech, healthtech, edtech, agritech, and more building across 20+ African countries.`,
     openGraph: {
       title: `${stageName} African Startups | FounderStack Africa`,
       description: `Browse African startups at the ${stageName.toLowerCase()} stage across multiple sectors and countries.`,

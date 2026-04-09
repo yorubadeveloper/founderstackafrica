@@ -17,7 +17,7 @@ const figtree = Figtree({
 const SITE_URL = "https://founderstackafrica.com"
 const SITE_NAME = "FounderStack Africa"
 const SITE_DESCRIPTION =
-  "Find the right startup tools, connect with African startups, and follow step-by-step guides built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda."
+  "Find the right startup tools, connect with African startups, and follow step-by-step guides built for founders across 20+ African countries."
 const TWITTER_HANDLE = "@founderstackafr"
 
 export const viewport: Viewport = {

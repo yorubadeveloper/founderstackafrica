@@ -5,7 +5,7 @@ import { FlowCard } from "@/components/FlowCard"
 export const metadata: Metadata = {
   title: "Startup Guides for African Founders",
   description:
-    "Step-by-step guides for registering a company, setting up payments, opening a business bank account, choosing hosting, and more. Each guide is built for founders in Nigeria, Ghana, Kenya, South Africa, and across Africa.",
+    "Step-by-step guides for registering a company, setting up payments, opening a business bank account, choosing hosting, and more. Each guide is built for founders across 20+ African countries.",
   openGraph: {
     title: "Startup Guides for African Founders | FounderStack Africa",
     description:

@@ -143,6 +143,7 @@ function mapTool(result: any): Tool {
     badge: (getSelect(props, "Badge") || null) as ToolBadge,
     affiliate: getCheckbox(props, "Affiliate"),
     lastVerified: getDate(props, "Last Verified"),
+    published: getCheckbox(props, "Published"),
   }
 }
 
@@ -205,6 +206,10 @@ export async function fetchAllTools(): Promise<Tool[]> {
   try {
     const res = await notion.databases.query({
       database_id: process.env.NOTION_TOOLS_DB_ID!,
+      filter: {
+        property: "Published",
+        checkbox: { equals: true },
+      },
       sorts: [{ property: "Name", direction: "ascending" }],
     })
     return res.results.map(mapTool)
@@ -222,8 +227,10 @@ export async function fetchToolsByCategory(categoryId: string): Promise<Tool[]> 
     const res = await notion.databases.query({
       database_id: process.env.NOTION_TOOLS_DB_ID!,
       filter: {
-        property: "Category",
-        relation: { contains: categoryId },
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Category", relation: { contains: categoryId } },
+        ],
       },
       sorts: [{ property: "Name", direction: "ascending" }],
     })
@@ -242,8 +249,10 @@ export async function fetchToolsByCountry(code: string): Promise<Tool[]> {
     const res = await notion.databases.query({
       database_id: process.env.NOTION_TOOLS_DB_ID!,
       filter: {
-        property: "Countries",
-        multi_select: { contains: code },
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Countries", multi_select: { contains: code } },
+        ],
       },
       sorts: [{ property: "Name", direction: "ascending" }],
     })
@@ -262,8 +271,10 @@ export async function fetchFeaturedTools(): Promise<Tool[]> {
     const res = await notion.databases.query({
       database_id: process.env.NOTION_TOOLS_DB_ID!,
       filter: {
-        property: "Badge",
-        select: { equals: "Featured" },
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Badge", select: { equals: "Featured" } },
+        ],
       },
       page_size: 6,
     })
@@ -282,8 +293,10 @@ export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
     const res = await notion.databases.query({
       database_id: process.env.NOTION_TOOLS_DB_ID!,
       filter: {
-        property: "Slug",
-        rich_text: { equals: slug },
+        and: [
+          { property: "Published", checkbox: { equals: true } },
+          { property: "Slug", rich_text: { equals: slug } },
+        ],
       },
     })
     if (res.results.length === 0) return null
@@ -514,4 +527,96 @@ export async function fetchStartupBySlug(slug: string): Promise<Startup | null> 
     console.error("fetchStartupBySlug failed:", e)
     return null
   }
+}
+
+// ---------------------------------------------------------------------------
+// Write operations (submissions)
+// ---------------------------------------------------------------------------
+
+export interface ToolSubmissionData {
+  name: string
+  url: string
+  tagline: string
+  description?: string
+  countries: string[]
+  categoryId?: string
+  freeTier?: string
+}
+
+export async function createToolSubmission(data: ToolSubmissionData) {
+  const properties: Record<string, unknown> = {
+    Name: { title: [{ text: { content: data.name } }] },
+    URL: { url: data.url },
+    Tagline: { rich_text: [{ text: { content: data.tagline } }] },
+    Published: { checkbox: false },
+    Countries: {
+      multi_select: data.countries.map((c) => ({ name: c })),
+    },
+  }
+
+  if (data.description) {
+    properties.Description = {
+      rich_text: [{ text: { content: data.description } }],
+    }
+  }
+  if (data.categoryId) {
+    properties.Category = { relation: [{ id: data.categoryId }] }
+  }
+  if (data.freeTier) {
+    properties["Free Tier"] = { select: { name: data.freeTier } }
+  }
+
+  return notion.pages.create({
+    parent: { database_id: process.env.NOTION_TOOLS_DB_ID! },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    properties: properties as any,
+  })
+}
+
+export interface StartupSubmissionData {
+  name: string
+  website?: string
+  tagline: string
+  description?: string
+  sector: string
+  stage: string
+  country: string[]
+  founded?: number
+  founders?: string
+}
+
+export async function createStartupSubmission(data: StartupSubmissionData) {
+  const properties: Record<string, unknown> = {
+    Name: { title: [{ text: { content: data.name } }] },
+    Tagline: { rich_text: [{ text: { content: data.tagline } }] },
+    Published: { checkbox: false },
+    Sector: { multi_select: [{ name: data.sector }] },
+    Stage: { select: { name: data.stage } },
+    Country: {
+      multi_select: data.country.map((c) => ({ name: c })),
+    },
+  }
+
+  if (data.website) {
+    properties.Website = { url: data.website }
+  }
+  if (data.description) {
+    properties.Description = {
+      rich_text: [{ text: { content: data.description } }],
+    }
+  }
+  if (data.founded) {
+    properties.Founded = { number: data.founded }
+  }
+  if (data.founders) {
+    properties.Founders = {
+      rich_text: [{ text: { content: data.founders } }],
+    }
+  }
+
+  return notion.pages.create({
+    parent: { database_id: process.env.NOTION_STARTUPS_DB_ID! },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    properties: properties as any,
+  })
 }

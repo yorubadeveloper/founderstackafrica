@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next"
 import { fetchCategories, fetchFlows, fetchAllTools, fetchStartups } from "@/lib/notion"
 import { slugify } from "@/lib/utils"
-import type { StartupSector, StartupStage, StartupCountry } from "@/lib/types"
+import type { StartupSector, StartupStage } from "@/lib/types"
+import { ALL_COUNTRY_CODES, ALL_COUNTRIES_WITH_PAN } from "@/lib/constants"
 
 const BASE_URL = "https://founderstackafrica.com"
 
@@ -14,10 +15,6 @@ const ALL_SECTORS: StartupSector[] = [
 const ALL_STAGES: StartupStage[] = [
   "Idea", "Pre-seed", "Seed", "Series A", "Series B",
   "Series C+", "Bootstrapped", "Acquired",
-]
-
-const ALL_STARTUP_COUNTRIES: StartupCountry[] = [
-  "NG", "GH", "KE", "ZA", "EG", "RW", "Pan-African",
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -68,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }))
 
-  const countryRoutes: MetadataRoute.Sitemap = ["NG", "GH", "KE", "ZA", "EG", "RW"].map(
+  const countryRoutes: MetadataRoute.Sitemap = ALL_COUNTRY_CODES.map(
     (code) => ({
       url: `${BASE_URL}/country/${code}`,
       lastModified: new Date(),
@@ -92,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  const startupCountryRoutes: MetadataRoute.Sitemap = ALL_STARTUP_COUNTRIES.map((c) => ({
+  const startupCountryRoutes: MetadataRoute.Sitemap = ALL_COUNTRIES_WITH_PAN.map((c) => ({
     url: `${BASE_URL}/startups/country/${c}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

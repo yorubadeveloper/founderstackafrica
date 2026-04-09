@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { fetchStartups } from "@/lib/notion"
-import { StartupCard } from "@/components/StartupCard"
+import { StartupsGrid } from "@/components/StartupsGrid"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "African Startups Directory",
   description:
-    "Discover innovative startups building across Africa. Browse by sector (fintech, healthtech, edtech, agritech), funding stage (pre-seed, seed, Series A), and country (Nigeria, Ghana, Kenya, South Africa, Egypt, Rwanda).",
+    "Discover innovative startups building across Africa. Browse by sector (fintech, healthtech, edtech, agritech), funding stage (pre-seed, seed, Series A), and country across 20+ African markets.",
   openGraph: {
     title: "African Startups Directory | FounderStack Africa",
     description:
@@ -36,11 +37,7 @@ export default async function StartupsPage() {
         </div>
 
         {startups.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {startups.map((startup) => (
-              <StartupCard key={startup.id} startup={startup} />
-            ))}
-          </div>
+          <StartupsGrid startups={startups} />
         ) : (
           <div className="shadow-card rounded-xl p-12 text-center">
             <p className="text-muted-foreground">
@@ -48,6 +45,19 @@ export default async function StartupsPage() {
             </p>
           </div>
         )}
+      </div>
+
+      {/* Submit CTA */}
+      <div className="mt-16 text-center">
+        <p className="text-sm text-muted-foreground mb-3">
+          Know a startup we should feature?
+        </p>
+        <Link
+          href="/submit?tab=startup"
+          className="inline-flex items-center justify-center rounded-lg bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all"
+        >
+          Submit a startup
+        </Link>
       </div>
 
       {/* JSON-LD: ItemList */}

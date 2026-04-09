@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { slugify } from "@/lib/utils"
+import { COUNTRIES } from "@/lib/constants"
 
 const SECTORS = [
   "Fintech",
@@ -77,6 +78,12 @@ export function Footer() {
             >
               Submit a tool
             </Link>
+            <Link
+              href="/submit?tab=startup"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Submit a startup
+            </Link>
           </div>
 
           {/* Countries */}
@@ -84,24 +91,15 @@ export function Footer() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
               Countries
             </p>
-            <Link href="/country/NG" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Nigeria
-            </Link>
-            <Link href="/country/GH" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Ghana
-            </Link>
-            <Link href="/country/KE" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Kenya
-            </Link>
-            <Link href="/country/ZA" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              South Africa
-            </Link>
-            <Link href="/country/EG" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Egypt
-            </Link>
-            <Link href="/country/RW" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Rwanda
-            </Link>
+            {COUNTRIES.map((c) => (
+              <Link
+                key={c.code}
+                href={`/country/${c.code}`}
+                className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {c.name}
+              </Link>
+            ))}
           </div>
 
           {/* Sectors — now using dedicated routes */}

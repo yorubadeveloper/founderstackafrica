@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import {
   fetchCategoryBySlug,
   fetchToolsByCategory,
@@ -18,10 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${category.name} Tools for African Startups`,
-    description: `${category.description} Curated tools that work in Nigeria, Ghana, and Kenya.`,
+    description: `${category.description} Curated tools that work across 20+ African countries.`,
     openGraph: {
       title: `${category.name} Tools for African Startups | FounderStack Africa`,
-      description: `${category.description} Curated tools that work in Nigeria, Ghana, and Kenya.`,
+      description: `${category.description} Curated tools that work across 20+ African countries.`,
       url: `https://founderstackafrica.com/category/${slug}`,
     },
     twitter: {
@@ -72,6 +73,15 @@ export default async function CategoryPage({ params }: Props) {
           </div>
 
           <CategoryPageClient tools={tools} />
+
+          <div className="flex justify-center mt-12">
+            <Link
+              href="/tools"
+              className="inline-flex items-center justify-center rounded-lg text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+            >
+              All tools
+            </Link>
+          </div>
         </div>
       </section>
 

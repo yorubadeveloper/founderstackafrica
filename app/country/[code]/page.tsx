@@ -2,13 +2,11 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { fetchToolsByCountry, fetchCategories } from "@/lib/notion"
 import { ToolCard } from "@/components/ToolCard"
-import { COUNTRY_NAMES, COUNTRY_FLAGS } from "@/lib/constants"
+import { COUNTRY_NAMES, COUNTRY_FLAGS, ALL_COUNTRY_CODES } from "@/lib/constants"
 
 interface Props {
   params: Promise<{ code: string }>
 }
-
-const VALID_CODES = ["NG", "GH", "KE", "ZA", "EG", "RW"]
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { code } = await params
@@ -37,13 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  return VALID_CODES.map((code) => ({ code }))
+  return ALL_COUNTRY_CODES.map((code) => ({ code }))
 }
 
 export default async function CountryPage({ params }: Props) {
   const { code } = await params
 
-  if (!VALID_CODES.includes(code)) notFound()
+  if (!ALL_COUNTRY_CODES.includes(code as never)) notFound()
 
   const name = COUNTRY_NAMES[code]
   const flag = COUNTRY_FLAGS[code] || ""

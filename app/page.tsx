@@ -12,7 +12,7 @@ import type { Phase } from "@/lib/types"
 export const metadata: Metadata = {
   title: "FounderStack Africa | Startup Tools, Guides & Startups for African Founders",
   description:
-    "Find the right startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and more. Built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
+    "Find the right startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and more. Built for founders across 20+ African countries.",
   openGraph: {
     title: "FounderStack Africa | Startup Tools, Guides & Startups for African Founders",
     description:
@@ -100,7 +100,7 @@ export default async function Home() {
             name: "FounderStack Africa",
             url: "https://founderstackafrica.com",
             description:
-              "Find startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and compliance across Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
+              "Find startup tools, discover African startups, and follow step-by-step guides for payments, incorporation, banking, hosting, and compliance across 20+ African countries.",
             inLanguage: "en",
             potentialAction: {
               "@type": "SearchAction",
@@ -142,7 +142,7 @@ export default async function Home() {
             "@type": "CollectionPage",
             name: "FounderStack Africa - Startup Tools, Guides & African Startups",
             description:
-              "Browse curated startup tools across payments, banking, incorporation, hosting, compliance, and more. Discover African startups by sector, stage, and country. Follow step-by-step guides built for founders in Nigeria, Ghana, Kenya, South Africa, Egypt, and Rwanda.",
+              "Browse curated startup tools across payments, banking, incorporation, hosting, compliance, and more. Discover African startups by sector, stage, and country. Follow step-by-step guides built for founders across 20+ African countries.",
             url: "https://founderstackafrica.com",
             isPartOf: {
               "@type": "WebSite",

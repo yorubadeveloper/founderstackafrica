@@ -3,20 +3,16 @@ import { notFound } from "next/navigation"
 import { fetchStartupsByCountry } from "@/lib/notion"
 import { StartupCard } from "@/components/StartupCard"
 import { Breadcrumb } from "@/components/Breadcrumb"
-import { COUNTRY_NAMES, COUNTRY_FLAGS } from "@/lib/constants"
+import { COUNTRY_NAMES, COUNTRY_FLAGS, ALL_COUNTRIES_WITH_PAN } from "@/lib/constants"
 import type { StartupCountry } from "@/lib/types"
 import Link from "next/link"
-
-const ALL_COUNTRIES: readonly StartupCountry[] = [
-  "NG", "GH", "KE", "ZA", "EG", "RW", "Pan-African",
-]
 
 interface PageProps {
   params: Promise<{ country: string }>
 }
 
 export async function generateStaticParams() {
-  return ALL_COUNTRIES.map((c) => ({ country: c }))
+  return ALL_COUNTRIES_WITH_PAN.map((c) => ({ country: c }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -39,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function StartupCountryPage({ params }: PageProps) {
   const { country } = await params
 
-  if (!ALL_COUNTRIES.includes(country as StartupCountry)) notFound()
+  if (!ALL_COUNTRIES_WITH_PAN.includes(country as StartupCountry)) notFound()
 
   const countryName = COUNTRY_NAMES[country] || country
   const countryFlag = COUNTRY_FLAGS[country] || ""
@@ -70,7 +66,7 @@ export default async function StartupCountryPage({ params }: PageProps) {
 
         {/* Other countries */}
         <div className="flex flex-wrap gap-2 mb-10">
-          {ALL_COUNTRIES.filter((c) => c !== country).map((c) => (
+          {ALL_COUNTRIES_WITH_PAN.filter((c) => c !== country).map((c) => (
             <Link
               key={c}
               href={`/startups/country/${c}`}
