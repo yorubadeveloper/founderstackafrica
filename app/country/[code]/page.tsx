@@ -56,9 +56,11 @@ export default async function CountryPage({ params }: Props) {
   const categoryMap = new Map(categories.map((c) => [c.id, c]))
   const toolsByCategory: Record<string, typeof tools> = {}
   for (const tool of tools) {
-    const catName = categoryMap.get(tool.categoryId)?.name || "Other"
-    if (!toolsByCategory[catName]) toolsByCategory[catName] = []
-    toolsByCategory[catName].push(tool)
+    for (const catId of tool.categoryIds) {
+      const catName = categoryMap.get(catId)?.name || "Other"
+      if (!toolsByCategory[catName]) toolsByCategory[catName] = []
+      toolsByCategory[catName].push(tool)
+    }
   }
 
   return (

@@ -20,7 +20,7 @@ export function ToolMarquee({ tools, categories = [] }: ToolMarqueeProps) {
   const catIconMap = new Map(categories.map((c) => [c.id, c.icon]))
 
   function getEmoji(tool: Tool): string {
-    return tool.emoji || catIconMap.get(tool.categoryId) || "\u{1F527}"
+    return tool.emoji || catIconMap.get(tool.categoryIds[0]) || "\u{1F527}"
   }
 
   // Split tools into 3 roughly equal rows

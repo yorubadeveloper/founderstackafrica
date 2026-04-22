@@ -33,7 +33,9 @@ export default async function Home() {
   // Compute tool counts per category
   const toolCountMap: Record<string, number> = {}
   for (const tool of allTools) {
-    toolCountMap[tool.categoryId] = (toolCountMap[tool.categoryId] || 0) + 1
+    for (const catId of tool.categoryIds) {
+      toolCountMap[catId] = (toolCountMap[catId] || 0) + 1
+    }
   }
 
   // Group categories by phase

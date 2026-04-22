@@ -45,7 +45,7 @@ export interface Tool {
   tagline: string
   description: string
   url: string
-  categoryId: string
+  categoryIds: string[]
   categoryName: string
   bestFor: string[]
   africaCompatible: AfricaCompatible

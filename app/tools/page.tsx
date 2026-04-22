@@ -28,9 +28,11 @@ export default async function ToolsPage() {
   // Group tools by category
   const toolsByCategory = new Map<string, typeof tools>()
   for (const tool of tools) {
-    const existing = toolsByCategory.get(tool.categoryId) || []
-    existing.push(tool)
-    toolsByCategory.set(tool.categoryId, existing)
+    for (const catId of tool.categoryIds) {
+      const existing = toolsByCategory.get(catId) || []
+      existing.push(tool)
+      toolsByCategory.set(catId, existing)
+    }
   }
 
   // Build phase groups for the client component

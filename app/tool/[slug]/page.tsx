@@ -63,13 +63,13 @@ export default async function ToolPage({ params }: Props) {
   ])
   if (!tool) notFound()
 
-  // Find category name
-  const category = categories.find((c) => c.id === tool.categoryId)
+  // Find category name (use first category)
+  const category = categories.find((c) => tool.categoryIds.includes(c.id))
   const categoryName = category?.name || tool.categoryName
 
   // Fetch similar tools from same category
-  const similar = tool.categoryId
-    ? (await fetchToolsByCategory(tool.categoryId))
+  const similar = tool.categoryIds.length > 0
+    ? (await fetchToolsByCategory(tool.categoryIds[0]))
         .filter((t) => t.id !== tool.id)
         .slice(0, 3)
     : []

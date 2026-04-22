@@ -128,7 +128,7 @@ function mapTool(result: any): Tool {
     tagline: getRichText(props, "Tagline"),
     description: getRichText(props, "Description"),
     url: getUrl(props, "URL"),
-    categoryId: categoryRelation[0] || "",
+    categoryIds: categoryRelation,
     categoryName: "",
     bestFor: getMultiSelect(props, "Best For"),
     africaCompatible: (getSelect(props, "Africa Compatible") || "No") as AfricaCompatible,
