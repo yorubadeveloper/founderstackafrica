@@ -204,15 +204,22 @@ export async function fetchAllTools(): Promise<Tool[]> {
   cacheLife("hours")
   cacheTag("tools")
   try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_TOOLS_DB_ID!,
-      filter: {
-        property: "Published",
-        checkbox: { equals: true },
-      },
-      sorts: [{ property: "Name", direction: "ascending" }],
-    })
-    return res.results.map(mapTool)
+    const allResults: Tool[] = []
+    let cursor: string | undefined = undefined
+    do {
+      const res = await notion.databases.query({
+        database_id: process.env.NOTION_TOOLS_DB_ID!,
+        filter: {
+          property: "Published",
+          checkbox: { equals: true },
+        },
+        sorts: [{ property: "Name", direction: "ascending" }],
+        start_cursor: cursor,
+      })
+      allResults.push(...res.results.map(mapTool))
+      cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
+    } while (cursor)
+    return allResults
   } catch (e) {
     console.error("fetchAllTools failed:", e)
     return []
@@ -404,15 +411,22 @@ export async function fetchStartups(): Promise<Startup[]> {
   cacheLife("hours")
   cacheTag("startups")
   try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_STARTUPS_DB_ID!,
-      filter: {
-        property: "Published",
-        checkbox: { equals: true },
-      },
-      sorts: [{ property: "Name", direction: "ascending" }],
-    })
-    return res.results.map(mapStartup)
+    const allResults: Startup[] = []
+    let cursor: string | undefined = undefined
+    do {
+      const res = await notion.databases.query({
+        database_id: process.env.NOTION_STARTUPS_DB_ID!,
+        filter: {
+          property: "Published",
+          checkbox: { equals: true },
+        },
+        sorts: [{ property: "Name", direction: "ascending" }],
+        start_cursor: cursor,
+      })
+      allResults.push(...res.results.map(mapStartup))
+      cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
+    } while (cursor)
+    return allResults
   } catch (e) {
     console.error("fetchStartups failed:", e)
     return []
