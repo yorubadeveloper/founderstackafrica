@@ -17,7 +17,7 @@ const figtree = Figtree({
 const SITE_URL = "https://founderstackafrica.com"
 const SITE_NAME = "FounderStack Africa"
 const SITE_DESCRIPTION =
-  "Find the right startup tools, connect with African startups, and follow step-by-step guides built for founders across 20+ African countries."
+  "The ultimate African startup starter pack. Find the right tools, discover startups, explore investors, and follow step-by-step guides built for founders across 20+ African countries."
 const TWITTER_HANDLE = "@founderstackafr"
 
 export const viewport: Viewport = {
@@ -42,7 +42,18 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   keywords: [
+    // Core brand & concept
     "African startups",
+    "African startup starter pack",
+    "african startup starterpack",
+    "startup starter pack Africa",
+    "startup kit Africa",
+    "startup toolkit Africa",
+    "startup stack",
+    "founder stack Africa",
+    "FounderStack Africa",
+
+    // Tools by country
     "startup tools Africa",
     "Nigeria startup tools",
     "Ghana startup tools",
@@ -50,9 +61,22 @@ export const metadata: Metadata = {
     "South Africa startup tools",
     "Egypt startup tools",
     "Rwanda startup tools",
+    "Morocco startup tools",
+    "Tanzania startup tools",
+    "Uganda startup tools",
+    "Senegal startup tools",
+    "Ethiopia startup tools",
+
+    // Founder-oriented
     "founder tools",
     "African founders",
-    "startup stack",
+    "African entrepreneurs",
+    "tools for African entrepreneurs",
+    "resources for African founders",
+    "best tools for African startups",
+    "startup resources Africa",
+
+    // Business tools
     "business tools Africa",
     "payment tools Africa",
     "Paystack alternatives",
@@ -61,19 +85,44 @@ export const metadata: Metadata = {
     "SaaS Africa",
     "no-code tools Africa",
     "startup incorporation Africa",
+
+    // Directory & ecosystem
     "African startup directory",
+    "African startup list",
+    "list of African startups",
+    "top African startups",
+    "African tech startups",
+    "African startup ecosystem",
+    "African tech ecosystem",
+    "Pan-African startups",
+
+    // Funding & investors
     "startup funding Africa",
     "venture capital Africa",
-    "African tech ecosystem",
+    "African startup investors",
+    "investors in African startups",
+    "VCs investing in Africa",
+    "angel investors Africa",
+    "startup grants Africa",
+    "accelerators Africa",
+    "startup accelerators in Nigeria",
+    "startup accelerators in Kenya",
+
+    // How-to / guides
     "startup guides Africa",
     "how to start a startup in Nigeria",
     "how to start a startup in Kenya",
+    "how to start a startup in Ghana",
+    "how to start a startup in South Africa",
     "how to register a company in Africa",
-    "best tools for African startups",
-    "startup resources Africa",
-    "African startup ecosystem",
-    "Pan-African startups",
-    "FounderStack Africa",
+    "how to register a startup in Nigeria",
+    "how to get funding for African startup",
+
+    // Discovery-intent
+    "discover African startups",
+    "find startup tools in Africa",
+    "African startup database",
+    "African startup search",
   ],
   category: "Technology",
   referrer: "origin-when-cross-origin",

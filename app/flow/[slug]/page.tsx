@@ -4,6 +4,7 @@ import { fetchFlow, fetchFlows } from "@/lib/notion"
 import { FlowStep } from "@/components/FlowStep"
 import { FlowCard } from "@/components/FlowCard"
 import { CountryChip } from "@/components/CountryChip"
+import { ShareButton } from "@/components/ShareButton"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -78,8 +79,9 @@ export default async function FlowPage({ params }: Props) {
                 </h1>
               </div>
             </div>
-            <div className="mb-3">
+            <div className="flex items-center gap-3 mb-3">
               <CountryChip code={flow.country} />
+              <ShareButton title={flow.title} text={`${flow.title} - A step-by-step guide on FounderStack Africa`} />
             </div>
             <p className="text-base text-muted-foreground">{flow.description}</p>
           </div>

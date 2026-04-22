@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { fetchToolsByCountry, fetchCategories } from "@/lib/notion"
 import { ToolCard } from "@/components/ToolCard"
 import { COUNTRY_NAMES, COUNTRY_FLAGS, ALL_COUNTRY_CODES } from "@/lib/constants"
+import { ShareButton } from "@/components/ShareButton"
 
 interface Props {
   params: Promise<{ code: string }>
@@ -64,9 +65,12 @@ export default async function CountryPage({ params }: Props) {
     <section className="bg-background py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-semibold text-foreground mb-2">
-            {flag} The {name} Founder Stack
-          </h1>
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
+              {flag} The {name} Founder Stack
+            </h1>
+            <ShareButton title={`Best Startup Tools for ${name}`} />
+          </div>
           <p className="text-lg text-muted-foreground">
             Tools verified to work in {name}
           </p>

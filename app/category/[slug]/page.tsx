@@ -7,6 +7,7 @@ import {
   fetchCategories,
 } from "@/lib/notion"
 import { CategoryPageClient } from "./client"
+import { ShareButton } from "@/components/ShareButton"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -65,6 +66,7 @@ export default async function CategoryPage({ params }: Props) {
               <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
                 {category.name}
               </h1>
+              <ShareButton title={`${category.name} Tools for African Startups`} />
             </div>
             <p className="text-lg text-muted-foreground">{category.tagline}</p>
             <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
@@ -77,7 +79,7 @@ export default async function CategoryPage({ params }: Props) {
           <div className="flex justify-center mt-12">
             <Link
               href="/tools"
-              className="inline-flex items-center justify-center rounded-lg text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+              className="inline-flex items-center justify-center rounded-full text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
             >
               All tools
             </Link>

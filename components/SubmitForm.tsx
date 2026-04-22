@@ -224,12 +224,12 @@ export function SubmitForm() {
     <div>
       {/* Pill tabs */}
       <div
-        className="inline-flex items-center rounded-lg p-1 mb-8"
+        className="inline-flex items-center rounded-full p-1 mb-8"
         style={{ boxShadow: "0 0 0 1px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)" }}
       >
         <button
           onClick={() => handleTabSwitch("tool")}
-          className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${
+          className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all ${
             tab === "tool"
               ? "bg-foreground text-background shadow-sm"
               : "text-muted-foreground hover:text-foreground"
@@ -239,7 +239,7 @@ export function SubmitForm() {
         </button>
         <button
           onClick={() => handleTabSwitch("startup")}
-          className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${
+          className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all ${
             tab === "startup"
               ? "bg-foreground text-background shadow-sm"
               : "text-muted-foreground hover:text-foreground"
@@ -328,7 +328,7 @@ export function SubmitForm() {
                   type="button"
                   disabled={status === "loading"}
                   onClick={() => toggleCountry(c.code, toolCountries, setToolCountries)}
-                  className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-60 ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-60 ${
                     toolCountries.includes(c.code)
                       ? "bg-foreground text-background"
                       : "text-muted-foreground hover:text-foreground"
@@ -387,7 +387,7 @@ export function SubmitForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all disabled:pointer-events-none disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all disabled:pointer-events-none disabled:opacity-60"
           >
             {status === "loading" ? (
               <>
@@ -518,7 +518,7 @@ export function SubmitForm() {
                   type="button"
                   disabled={status === "loading"}
                   onClick={() => toggleCountry(c.code, startupCountry, setStartupCountry)}
-                  className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-60 ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium transition-all disabled:opacity-60 ${
                     startupCountry.includes(c.code)
                       ? "bg-foreground text-background"
                       : "text-muted-foreground hover:text-foreground"
@@ -590,7 +590,7 @@ export function SubmitForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all disabled:pointer-events-none disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all disabled:pointer-events-none disabled:opacity-60"
           >
             {status === "loading" ? (
               <>

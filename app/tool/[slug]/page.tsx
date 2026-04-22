@@ -14,6 +14,7 @@ import { AfricaBadge, AfricaNativeChip, FreeTierBadge, ToolBadgeChip } from "@/c
 import { CountryChip } from "@/components/CountryChip"
 import { OutdatedBadge } from "@/components/OutdatedBadge"
 import { ToolCard } from "@/components/ToolCard"
+import { ShareButton } from "@/components/ShareButton"
 
 import { COUNTRY_NAMES } from "@/lib/constants"
 
@@ -118,6 +119,7 @@ export default async function ToolPage({ params }: Props) {
               Visit Website
               <ArrowSquareOut size={14} />
             </a>
+            <ShareButton title={`${tool.name} - ${tool.tagline}`} text={`Check out ${tool.name} on FounderStack Africa: ${tool.tagline}`} />
             <AfricaBadge type={tool.africaCompatible} />
             {tool.africaNative && <AfricaNativeChip />}
           </div>

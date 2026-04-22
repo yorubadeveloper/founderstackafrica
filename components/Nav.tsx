@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { SubscribeModal } from "@/components/SubscribeModal"
+import { SearchCommand } from "@/components/SearchCommand"
 
 export function Nav() {
   const pathname = usePathname()
@@ -59,15 +60,29 @@ export function Nav() {
               </div>
             </div>
 
-            {/* Right: Get updates */}
-            <button
-              onClick={() => setSubscribeOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-sm font-medium h-8 px-4 shadow-btn hover:bg-primary/90 transition-all"
-            >
-              Get updates
-            </button>
+            {/* Right: Search + Get updates */}
+            <div className="flex items-center gap-2">
+              <SearchCommand />
+              <button
+                onClick={() => setSubscribeOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground text-sm font-medium h-8 px-4 shadow-btn hover:bg-primary/90 transition-all"
+              >
+                Get updates
+              </button>
+            </div>
           </div>
-           <div className="flex md:hidden items-center justify-center h-12">
+           <div className="flex md:hidden items-center justify-between h-12 px-1">
+            <Link href="/" className="flex items-center shrink-0 logo-tilt">
+              <Image
+                src="/logo.png"
+                alt="FounderStack Africa"
+                width={130}
+                height={38}
+                className="h-7 w-auto"
+                priority
+              />
+            </Link>
+            <SearchCommand />
           </div>
         </div>
 

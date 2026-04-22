@@ -74,7 +74,7 @@ export default async function ToolsPage() {
               <Link
                 key={cat.id}
                 href={`/category/${cat.slug}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg px-3 py-1.5 shadow-btn transition-all"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-full px-3 py-1.5 shadow-btn transition-all"
               >
                 {cat.icon} {cat.name}
                 <span className="text-xs text-muted-foreground/60">({count})</span>
@@ -94,7 +94,7 @@ export default async function ToolsPage() {
         </p>
         <Link
           href="/submit"
-          className="inline-flex items-center justify-center rounded-lg bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all"
+          className="inline-flex items-center justify-center rounded-full bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all"
         >
           Submit a tool
         </Link>

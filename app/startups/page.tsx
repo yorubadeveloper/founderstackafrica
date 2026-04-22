@@ -54,7 +54,7 @@ export default async function StartupsPage() {
         </p>
         <Link
           href="/submit?tab=startup"
-          className="inline-flex items-center justify-center rounded-lg bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all"
+          className="inline-flex items-center justify-center rounded-full bg-foreground text-background text-sm font-medium h-10 px-5 shadow-btn hover:bg-foreground/90 transition-all"
         >
           Submit a startup
         </Link>

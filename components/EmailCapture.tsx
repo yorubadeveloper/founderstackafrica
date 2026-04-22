@@ -85,7 +85,7 @@ export function EmailCapture() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium h-9 px-3 shadow-btn hover:bg-primary/90 transition-all disabled:pointer-events-none disabled:opacity-60"
+          className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary text-primary-foreground text-sm font-medium h-9 px-3 shadow-btn hover:bg-primary/90 transition-all disabled:pointer-events-none disabled:opacity-60"
         >
           {status === "loading" ? (
             <>

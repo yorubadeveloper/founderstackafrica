@@ -43,7 +43,7 @@ export function FilterBar({ tools, onFilter }: FilterBarProps) {
         <button
           key={f.key}
           onClick={() => applyFilter(f.key)}
-          className={`snap-start flex-shrink-0 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-150 min-h-[36px] ${
+          className={`snap-start flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-150 min-h-[36px] ${
             active === f.key
               ? "bg-foreground text-background shadow-btn"
               : "bg-white text-muted-foreground shadow-btn hover:text-foreground"

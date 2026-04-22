@@ -74,7 +74,7 @@ export default async function StagePage({ params }: PageProps) {
             <Link
               key={s}
               href={`/startups/stage/${slugify(s)}`}
-              className="inline-flex items-center text-xs font-medium text-muted-foreground hover:text-foreground rounded-lg px-2.5 py-1.5 shadow-btn transition-all"
+              className="inline-flex items-center text-xs font-medium text-muted-foreground hover:text-foreground rounded-full px-2.5 py-1.5 shadow-btn transition-all"
             >
               {s}
             </Link>

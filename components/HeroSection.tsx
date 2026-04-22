@@ -8,7 +8,7 @@ export function HeroSection() {
           {" "}for Africa
         </h1>
         <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Find the right tools, connect with startups, and follow proven guides built for African markets.
+          The starter pack for African founders. Find the right tools, connect with startups, and follow proven guides built for African markets.
         </p>
       </div>
     </section>

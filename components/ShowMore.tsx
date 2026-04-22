@@ -31,7 +31,7 @@ export function ShowMore({
         <div className="flex justify-center mt-10">
           <button
             onClick={() => setVisible((v) => Math.min(v + step, items.length))}
-            className="inline-flex items-center justify-center rounded-lg text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
           >
             {label}
           </button>

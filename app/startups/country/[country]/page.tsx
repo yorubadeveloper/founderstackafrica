@@ -70,7 +70,7 @@ export default async function StartupCountryPage({ params }: PageProps) {
             <Link
               key={c}
               href={`/startups/country/${c}`}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded-lg px-2.5 py-1.5 shadow-btn transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded-full px-2.5 py-1.5 shadow-btn transition-all"
             >
               {COUNTRY_FLAGS[c]} {COUNTRY_NAMES[c]}
             </Link>

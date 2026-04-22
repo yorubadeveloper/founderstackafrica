@@ -9,6 +9,7 @@ import {
 import { fetchStartupBySlug, fetchStartups, fetchStartupsBySector } from "@/lib/notion"
 import { CountryChip } from "@/components/CountryChip"
 import { StartupCard } from "@/components/StartupCard"
+import { ShareButton } from "@/components/ShareButton"
 import { COUNTRY_NAMES } from "@/lib/constants"
 
 interface Props {
@@ -109,6 +110,7 @@ export default async function StartupPage({ params }: Props) {
                 <ArrowSquareOut size={14} />
               </a>
             )}
+            <ShareButton title={`${startup.name} - ${startup.tagline}`} text={`Check out ${startup.name} on FounderStack Africa: ${startup.tagline}`} />
             {startup.hiring && (
               <span
                 className="inline-flex items-center gap-1.5 text-sm font-medium rounded-full h-9 px-4"

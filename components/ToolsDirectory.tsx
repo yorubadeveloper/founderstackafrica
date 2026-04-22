@@ -68,7 +68,7 @@ export function ToolsDirectory({ phases }: ToolsDirectoryProps) {
             onClick={() =>
               setVisiblePhases((v) => Math.min(v + PHASE_STEP, phases.length))
             }
-            className="inline-flex items-center justify-center rounded-lg text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
           >
             See more tools
           </button>
