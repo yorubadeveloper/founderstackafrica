@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+
+export const dynamicParams = false
 import { fetchFlow, fetchFlows } from "@/lib/notion"
 import { FlowStep } from "@/components/FlowStep"
 import { FlowCard } from "@/components/FlowCard"

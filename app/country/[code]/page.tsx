@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+
+export const dynamicParams = false
 import { fetchToolsByCountry, fetchCategories } from "@/lib/notion"
 import { ToolCard } from "@/components/ToolCard"
 import { COUNTRY_NAMES, COUNTRY_FLAGS, ALL_COUNTRY_CODES } from "@/lib/constants"
