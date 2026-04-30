@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-export const dynamicParams = false
 import { fetchStartupsByStage } from "@/lib/notion"
 import { StartupCard } from "@/components/StartupCard"
 import { Breadcrumb } from "@/components/Breadcrumb"

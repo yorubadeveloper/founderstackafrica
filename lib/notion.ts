@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client"
 import { cacheLife, cacheTag } from "next/cache"
+
 import type {
   Category,
   Tool,
@@ -165,7 +166,7 @@ function mapFlow(result: any): Flow {
 
 export async function fetchCategories(): Promise<Category[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("categories")
   try {
     const res = await notion.databases.query({
@@ -181,7 +182,7 @@ export async function fetchCategories(): Promise<Category[]> {
 
 export async function fetchCategoryBySlug(slug: string): Promise<Category | null> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("categories")
   try {
     const res = await notion.databases.query({
@@ -201,7 +202,7 @@ export async function fetchCategoryBySlug(slug: string): Promise<Category | null
 
 export async function fetchAllTools(): Promise<Tool[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("tools")
   try {
     const allResults: Tool[] = []
@@ -228,7 +229,7 @@ export async function fetchAllTools(): Promise<Tool[]> {
 
 export async function fetchToolsByCategory(categoryId: string): Promise<Tool[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("tools")
   try {
     const res = await notion.databases.query({
@@ -250,7 +251,7 @@ export async function fetchToolsByCategory(categoryId: string): Promise<Tool[]> 
 
 export async function fetchToolsByCountry(code: string): Promise<Tool[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("tools")
   try {
     const res = await notion.databases.query({
@@ -272,7 +273,7 @@ export async function fetchToolsByCountry(code: string): Promise<Tool[]> {
 
 export async function fetchFeaturedTools(): Promise<Tool[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("tools")
   try {
     const res = await notion.databases.query({
@@ -294,7 +295,7 @@ export async function fetchFeaturedTools(): Promise<Tool[]> {
 
 export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("tools")
   try {
     const res = await notion.databases.query({
@@ -316,7 +317,7 @@ export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
 
 export async function fetchFlows(country?: string): Promise<Flow[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("flows")
   try {
     if (country) {
@@ -353,7 +354,7 @@ export async function fetchFlows(country?: string): Promise<Flow[]> {
 
 export async function fetchFlow(slug: string): Promise<Flow | null> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("flows")
   try {
     const res = await notion.databases.query({
@@ -408,7 +409,7 @@ function mapStartup(result: any): Startup {
 
 export async function fetchStartups(): Promise<Startup[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const allResults: Startup[] = []
@@ -435,7 +436,7 @@ export async function fetchStartups(): Promise<Startup[]> {
 
 export async function fetchFeaturedStartups(): Promise<Startup[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const res = await notion.databases.query({
@@ -457,7 +458,7 @@ export async function fetchFeaturedStartups(): Promise<Startup[]> {
 
 export async function fetchStartupsBySector(sector: string): Promise<Startup[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const res = await notion.databases.query({
@@ -479,7 +480,7 @@ export async function fetchStartupsBySector(sector: string): Promise<Startup[]> 
 
 export async function fetchStartupsByCountry(country: string): Promise<Startup[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const res = await notion.databases.query({
@@ -501,7 +502,7 @@ export async function fetchStartupsByCountry(country: string): Promise<Startup[]
 
 export async function fetchStartupsByStage(stage: string): Promise<Startup[]> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const res = await notion.databases.query({
@@ -523,7 +524,7 @@ export async function fetchStartupsByStage(stage: string): Promise<Startup[]> {
 
 export async function fetchStartupBySlug(slug: string): Promise<Startup | null> {
   "use cache"
-  cacheLife("hours")
+  cacheLife("days")
   cacheTag("startups")
   try {
     const res = await notion.databases.query({
