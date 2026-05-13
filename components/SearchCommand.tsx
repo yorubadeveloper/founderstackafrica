@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo, useDeferredValue } from "react"
 import { useRouter } from "next/navigation"
 import Fuse from "fuse.js"
-import { MagnifyingGlass, ArrowRight, Wrench, Rocket, Path, Square } from "@phosphor-icons/react/dist/ssr"
+import { MagnifyingGlass, ArrowRight, Wrench, Rocket, Path, Square } from "@phosphor-icons/react"
 
 interface SearchResult {
   name: string
@@ -122,10 +122,14 @@ export function SearchCommand() {
     })
   }, [items])
 
+  // Run search on a deferred copy of the query so the input itself stays
+  // responsive even if Fuse takes a few ms.
+  const deferredQuery = useDeferredValue(query)
+
   // Run search synchronously on every keystroke (no debounce needed — it's all in memory)
   const allResults: SearchResult[] = useMemo(() => {
-    if (!fuse || !query || query.length < 2) return []
-    const hits = fuse.search(query, { limit: 50 })
+    if (!fuse || !deferredQuery || deferredQuery.length < 2) return []
+    const hits = fuse.search(deferredQuery, { limit: 50 })
 
     // Group by type, then re-flatten in fixed order with per-type caps,
     // preserving Fuse's relevance ordering within each type.
@@ -140,12 +144,12 @@ export function SearchCommand() {
       if (byType[type].length < TYPE_LIMITS[type]) byType[type].push(h.item)
     }
     return [...byType.tool, ...byType.startup, ...byType.flow, ...byType.category]
-  }, [fuse, query])
+  }, [fuse, deferredQuery])
 
   // Reset highlight whenever the result set changes
   useEffect(() => {
     setActiveIndex(0)
-  }, [query])
+  }, [deferredQuery])
 
   const navigate = useCallback(
     (result: SearchResult) => {
@@ -168,7 +172,7 @@ export function SearchCommand() {
   }
 
   const hasResults = allResults.length > 0
-  const noResults = !loading && !hasResults && query.length >= 2 && items !== null
+  const noResults = !loading && !hasResults && deferredQuery.length >= 2 && items !== null
 
   return (
     <>
@@ -189,7 +193,7 @@ export function SearchCommand() {
       {/* Modal overlay */}
       {open && (
         <div className="fixed inset-0 z-[100]" onClick={() => setOpen(false)}>
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-xs" />
+          <div className="fixed inset-0 bg-foreground/15" />
           <div className="fixed inset-x-0 top-[15vh] flex justify-center px-4">
             <div
               className="w-full max-w-lg rounded-xl border border-border bg-card shadow-2xl overflow-hidden"
