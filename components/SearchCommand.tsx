@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
+import Fuse from "fuse.js"
 import { MagnifyingGlass, ArrowRight, Wrench, Rocket, Path, Square } from "@phosphor-icons/react/dist/ssr"
 
 interface SearchResult {
@@ -10,13 +11,7 @@ interface SearchResult {
   emoji: string
   tagline: string
   type: "tool" | "startup" | "flow" | "category"
-}
-
-interface SearchResults {
-  tools: SearchResult[]
-  startups: SearchResult[]
-  flows: SearchResult[]
-  categories: SearchResult[]
+  extra?: string
 }
 
 const TYPE_LABELS: Record<string, { label: string; icon: typeof Wrench }> = {
@@ -24,6 +19,35 @@ const TYPE_LABELS: Record<string, { label: string; icon: typeof Wrench }> = {
   startup: { label: "Startups", icon: Rocket },
   flow: { label: "Guides", icon: Path },
   category: { label: "Categories", icon: Square },
+}
+
+// Per-type result caps (preserved from the previous server route)
+const TYPE_LIMITS: Record<SearchResult["type"], number> = {
+  tool: 5,
+  startup: 5,
+  flow: 3,
+  category: 3,
+}
+
+// Module-scoped cache so the index is fetched at most once per session,
+// even if multiple SearchCommand instances mount.
+let indexCache: SearchResult[] | null = null
+let indexPromise: Promise<SearchResult[]> | null = null
+
+async function loadIndex(): Promise<SearchResult[]> {
+  if (indexCache) return indexCache
+  if (indexPromise) return indexPromise
+  indexPromise = fetch("/api/search")
+    .then((r) => r.json())
+    .then((data: { items: SearchResult[] }) => {
+      indexCache = data.items ?? []
+      return indexCache
+    })
+    .catch(() => {
+      indexPromise = null
+      return []
+    })
+  return indexPromise
 }
 
 function getHref(result: SearchResult): string {
@@ -42,12 +66,11 @@ function getHref(result: SearchResult): string {
 export function SearchCommand() {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState<SearchResults | null>(null)
+  const [items, setItems] = useState<SearchResult[] | null>(indexCache)
   const [loading, setLoading] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   // Cmd+K / Ctrl+K to open
   useEffect(() => {
@@ -62,49 +85,74 @@ export function SearchCommand() {
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Focus input when opened
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 50)
-      setQuery("")
-      setResults(null)
-      setActiveIndex(0)
-    }
-  }, [open])
+  // Prefetch on hover/focus of the trigger — almost always hides the fetch latency
+  const prefetchIndex = useCallback(() => {
+    if (!indexCache) void loadIndex()
+  }, [])
 
-  // Debounced search
+  // Focus + lazy-load on open
   useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    if (!query || query.length < 2) {
-      setResults(null)
+    if (!open) return
+    setTimeout(() => inputRef.current?.focus(), 50)
+    setQuery("")
+    setActiveIndex(0)
+    if (indexCache) {
+      setItems(indexCache)
       return
     }
     setLoading(true)
-    debounceRef.current = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
-        const data = await res.json()
-        setResults(data)
-        setActiveIndex(0)
-      } catch {
-        setResults(null)
-      } finally {
-        setLoading(false)
-      }
-    }, 250)
-  }, [query])
+    loadIndex()
+      .then((data) => setItems(data))
+      .finally(() => setLoading(false))
+  }, [open])
 
-  // Flatten results for keyboard navigation
-  const allResults: SearchResult[] = results
-    ? [...results.tools, ...results.startups, ...results.flows, ...results.categories]
-    : []
+  // Build Fuse instance once per dataset
+  const fuse = useMemo(() => {
+    if (!items) return null
+    return new Fuse(items, {
+      keys: [
+        { name: "name", weight: 0.6 },
+        { name: "tagline", weight: 0.3 },
+        { name: "extra", weight: 0.1 },
+      ],
+      threshold: 0.35,
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+      includeScore: true,
+    })
+  }, [items])
+
+  // Run search synchronously on every keystroke (no debounce needed — it's all in memory)
+  const allResults: SearchResult[] = useMemo(() => {
+    if (!fuse || !query || query.length < 2) return []
+    const hits = fuse.search(query, { limit: 50 })
+
+    // Group by type, then re-flatten in fixed order with per-type caps,
+    // preserving Fuse's relevance ordering within each type.
+    const byType: Record<SearchResult["type"], SearchResult[]> = {
+      tool: [],
+      startup: [],
+      flow: [],
+      category: [],
+    }
+    for (const h of hits) {
+      const type = h.item.type
+      if (byType[type].length < TYPE_LIMITS[type]) byType[type].push(h.item)
+    }
+    return [...byType.tool, ...byType.startup, ...byType.flow, ...byType.category]
+  }, [fuse, query])
+
+  // Reset highlight whenever the result set changes
+  useEffect(() => {
+    setActiveIndex(0)
+  }, [query])
 
   const navigate = useCallback(
     (result: SearchResult) => {
       router.push(getHref(result))
       setOpen(false)
     },
-    [router]
+    [router],
   )
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -120,13 +168,15 @@ export function SearchCommand() {
   }
 
   const hasResults = allResults.length > 0
-  const noResults = results && !hasResults && query.length >= 2
+  const noResults = !loading && !hasResults && query.length >= 2 && items !== null
 
   return (
     <>
       {/* Search trigger button */}
       <button
         onClick={() => setOpen(true)}
+        onMouseEnter={prefetchIndex}
+        onFocus={prefetchIndex}
         className="inline-flex items-center gap-2 rounded-full border border-border bg-card text-muted-foreground text-sm h-8 px-3 hover:bg-accent transition-colors"
       >
         <MagnifyingGlass size={14} weight="bold" />
@@ -170,7 +220,7 @@ export function SearchCommand() {
               <div className="max-h-[50vh] overflow-y-auto">
                 {loading && (
                   <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-                    Searching...
+                    Loading search...
                   </div>
                 )}
 
@@ -223,7 +273,7 @@ export function SearchCommand() {
                   </div>
                 )}
 
-                {!loading && !results && (
+                {!loading && query.length < 2 && (
                   <div className="px-4 py-6 text-center text-sm text-muted-foreground">
                     Start typing to search across tools, startups, and guides
                   </div>

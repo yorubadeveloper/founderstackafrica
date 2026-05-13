@@ -1,80 +1,67 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { fetchAllTools, fetchStartups, fetchFlows, fetchCategories } from "@/lib/notion"
 
-export async function GET(request: NextRequest) {
-  const q = request.nextUrl.searchParams.get("q")?.toLowerCase().trim()
-  if (!q || q.length < 2) {
-    return NextResponse.json({ tools: [], startups: [], flows: [], categories: [] })
-  }
+export interface SearchIndexItem {
+  type: "tool" | "startup" | "flow" | "category"
+  name: string
+  slug: string
+  emoji: string
+  tagline: string
+  // optional secondary fields used for fuzzy matching only
+  extra?: string
+}
 
-  const [allTools, allStartups, allFlows, allCategories] = await Promise.all([
+// Single lightweight index containing every searchable record.
+// Cached upstream by `fetchX` (use cache + cacheTag), so this is cheap.
+export async function GET() {
+  const [tools, startups, flows, categories] = await Promise.all([
     fetchAllTools(),
     fetchStartups(),
     fetchFlows(),
     fetchCategories(),
   ])
 
-  const tools = allTools
-    .filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.tagline.toLowerCase().includes(q) ||
-        t.categoryName.toLowerCase().includes(q)
-    )
-    .slice(0, 5)
-    .map((t) => ({
+  const items: SearchIndexItem[] = [
+    ...tools.map((t) => ({
+      type: "tool" as const,
       name: t.name,
       slug: t.slug,
       emoji: t.emoji,
       tagline: t.tagline,
-      type: "tool" as const,
-    }))
-
-  const startups = allStartups
-    .filter(
-      (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.tagline.toLowerCase().includes(q) ||
-        s.sector.some((sec) => sec.toLowerCase().includes(q))
-    )
-    .slice(0, 5)
-    .map((s) => ({
+      extra: t.categoryName,
+    })),
+    ...startups.map((s) => ({
+      type: "startup" as const,
       name: s.name,
       slug: s.slug,
       emoji: s.emoji,
       tagline: s.tagline,
-      type: "startup" as const,
-    }))
-
-  const flows = allFlows
-    .filter(
-      (f) =>
-        f.title.toLowerCase().includes(q) ||
-        f.description.toLowerCase().includes(q)
-    )
-    .slice(0, 3)
-    .map((f) => ({
+      extra: s.sector.join(" "),
+    })),
+    ...flows.map((f) => ({
+      type: "flow" as const,
       name: f.title,
       slug: f.slug,
       emoji: f.emoji,
       tagline: f.description,
-      type: "flow" as const,
-    }))
-
-  const categories = allCategories
-    .filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.tagline.toLowerCase().includes(q)
-    )
-    .slice(0, 3)
-    .map((c) => ({
+    })),
+    ...categories.map((c) => ({
+      type: "category" as const,
       name: c.name,
       slug: c.slug,
       emoji: c.icon,
       tagline: c.tagline,
-      type: "category" as const,
-    }))
+    })),
+  ]
 
-  return NextResponse.json({ tools, startups, flows, categories })
+  return NextResponse.json(
+    { items },
+    {
+      headers: {
+        // Browser-side cache for an hour; SWR for a day.
+        // Tag-based revalidation on the server still applies via the underlying fetchers.
+        "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
+      },
+    },
+  )
 }
