@@ -92,6 +92,11 @@ export function SubmitForm() {
   const [startupCountry, setStartupCountry] = useState<string[]>([])
   const [startupFounded, setStartupFounded] = useState("")
   const [startupFounders, setStartupFounders] = useState("")
+  const [startupHq, setStartupHq] = useState("")
+  const [startupLinkedin, setStartupLinkedin] = useState("")
+  const [startupTwitter, setStartupTwitter] = useState("")
+  const [startupKeyInvestors, setStartupKeyInvestors] = useState("")
+  const [startupValuation, setStartupValuation] = useState("")
   const [startupEmail, setStartupEmail] = useState("")
 
   function resetError() {
@@ -173,6 +178,11 @@ export function SubmitForm() {
           country: startupCountry,
           founded: startupFounded ? Number(startupFounded) : undefined,
           founders: startupFounders || undefined,
+          hq: startupHq || undefined,
+          linkedin: startupLinkedin || undefined,
+          twitter: startupTwitter || undefined,
+          keyInvestors: startupKeyInvestors || undefined,
+          valuation: startupValuation || undefined,
           email: startupEmail,
         }),
       })
@@ -253,8 +263,74 @@ export function SubmitForm() {
       {tab === "tool" && (
         <form onSubmit={handleToolSubmit} className="space-y-5">
           <div>
+            <label className={labelClass}>Headquarters</label>
+            <input
+              type="text"
+              placeholder="e.g. Lagos, Nigeria (optional)"
+              value={startupHq}
+              onChange={(e) => { setStartupHq(e.target.value); resetError() }}
+              disabled={status === "loading"}
+              className={inputClass}
+              style={inputShadow}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className={labelClass}>LinkedIn</label>
+              <input
+                type="url"
+                placeholder="https://linkedin.com/company/... (optional)"
+                value={startupLinkedin}
+                onChange={(e) => { setStartupLinkedin(e.target.value); resetError() }}
+                disabled={status === "loading"}
+                className={inputClass}
+                style={inputShadow}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Twitter / X</label>
+              <input
+                type="url"
+                placeholder="https://twitter.com/... (optional)"
+                value={startupTwitter}
+                onChange={(e) => { setStartupTwitter(e.target.value); resetError() }}
+                disabled={status === "loading"}
+                className={inputClass}
+                style={inputShadow}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className={labelClass}>Key investors</label>
+            <input
+              type="text"
+              placeholder="e.g. Y Combinator, Tiger Global (optional)"
+              value={startupKeyInvestors}
+              onChange={(e) => { setStartupKeyInvestors(e.target.value); resetError() }}
+              disabled={status === "loading"}
+              className={inputClass}
+              style={inputShadow}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>Valuation / Total raised</label>
+            <input
+              type="text"
+              placeholder="e.g. $50M Series A (optional)"
+              value={startupValuation}
+              onChange={(e) => { setStartupValuation(e.target.value); resetError() }}
+              disabled={status === "loading"}
+              className={inputClass}
+              style={inputShadow}
+            />
+          </div>
+
+          <div>
             <label className={labelClass}>
-              Tool name <span className="text-destructive">*</span>
+              Your email <span className="text-destructive">*</span>
             </label>
             <input
               type="text"

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { StartupCard } from "@/components/StartupCard"
 import type { Startup } from "@/lib/types"
 
@@ -13,8 +13,26 @@ interface StartupsGridProps {
 
 export function StartupsGrid({ startups }: StartupsGridProps) {
   const [visible, setVisible] = useState(INITIAL)
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
   const shown = startups.slice(0, visible)
   const hasMore = visible < startups.length
+
+  useEffect(() => {
+    if (!hasMore) return
+    const node = sentinelRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisible((v) => Math.min(v + STEP, startups.length))
+        }
+      },
+      { rootMargin: "600px 0px" }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [hasMore, startups.length])
 
   return (
     <>
@@ -24,16 +42,14 @@ export function StartupsGrid({ startups }: StartupsGridProps) {
         ))}
       </div>
       {hasMore && (
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={() =>
-              setVisible((v) => Math.min(v + STEP, startups.length))
-            }
-            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-10 px-6 shadow-btn text-muted-foreground hover:text-foreground transition-all"
-          >
-            See more startups
-          </button>
-        </div>
+        <>
+          <div ref={sentinelRef} aria-hidden="true" className="h-1 w-full" />
+          <div className="flex justify-center mt-10">
+            <span className="text-sm text-muted-foreground">
+              Loading more startups…
+            </span>
+          </div>
+        </>
       )}
     </>
   )

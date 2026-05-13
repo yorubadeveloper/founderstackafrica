@@ -55,6 +55,11 @@ export async function POST(req: NextRequest) {
     const country: string[] = Array.isArray(body.country) ? body.country : []
     const founded = typeof body.founded === "number" ? body.founded : undefined
     const founders = typeof body.founders === "string" ? body.founders.trim() : ""
+    const hq = typeof body.hq === "string" ? body.hq.trim() : ""
+    const linkedin = typeof body.linkedin === "string" ? body.linkedin.trim() : ""
+    const twitter = typeof body.twitter === "string" ? body.twitter.trim() : ""
+    const keyInvestors = typeof body.keyInvestors === "string" ? body.keyInvestors.trim() : ""
+    const valuation = typeof body.valuation === "string" ? body.valuation.trim() : ""
     const email = typeof body.email === "string" ? body.email.trim() : ""
 
     // Validate required fields
@@ -88,6 +93,11 @@ export async function POST(req: NextRequest) {
       country,
       founded,
       founders: founders || undefined,
+      hq: hq || undefined,
+      linkedin: linkedin || undefined,
+      twitter: twitter || undefined,
+      keyInvestors: keyInvestors || undefined,
+      valuation: valuation || undefined,
     })
 
     // Send notification email
@@ -100,8 +110,13 @@ export async function POST(req: NextRequest) {
       { label: "Sector", value: sector },
       { label: "Stage", value: stage },
       { label: "Country", value: countryLabels },
+      ...(hq ? [{ label: "HQ", value: hq }] : []),
       ...(founded ? [{ label: "Founded", value: String(founded) }] : []),
       ...(founders ? [{ label: "Founders", value: founders }] : []),
+      ...(linkedin ? [{ label: "LinkedIn", value: linkedin }] : []),
+      ...(twitter ? [{ label: "Twitter", value: twitter }] : []),
+      ...(keyInvestors ? [{ label: "Key Investors", value: keyInvestors }] : []),
+      ...(valuation ? [{ label: "Valuation", value: valuation }] : []),
     ]
 
     await resend.emails.send({

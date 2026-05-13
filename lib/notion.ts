@@ -401,6 +401,11 @@ function mapStartup(result: any): Startup {
     founders: getRichText(props, "Founders"),
     totalRaised: getRichText(props, "Total Raised"),
     website: getUrl(props, "Website"),
+    linkedin: getUrl(props, "LinkedIn"),
+    twitter: getUrl(props, "Twitter"),
+    hq: getRichText(props, "HQ"),
+    keyInvestors: getRichText(props, "Key Investors"),
+    valuation: getRichText(props, "Valuation"),
     featured: getCheckbox(props, "Featured"),
     hiring: getCheckbox(props, "Hiring"),
     published: getCheckbox(props, "Published"),
@@ -457,91 +462,26 @@ export async function fetchFeaturedStartups(): Promise<Startup[]> {
 }
 
 export async function fetchStartupsBySector(sector: string): Promise<Startup[]> {
-  "use cache"
-  cacheLife("days")
-  cacheTag("startups")
-  try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_STARTUPS_DB_ID!,
-      filter: {
-        and: [
-          { property: "Published", checkbox: { equals: true } },
-          { property: "Sector", multi_select: { contains: sector } },
-        ],
-      },
-      sorts: [{ property: "Name", direction: "ascending" }],
-    })
-    return res.results.map(mapStartup)
-  } catch (e) {
-    console.error("fetchStartupsBySector failed:", e)
-    return []
-  }
+  const all = await fetchStartups()
+  return all.filter((s) => s.sector.includes(sector as StartupSector))
 }
 
 export async function fetchStartupsByCountry(country: string): Promise<Startup[]> {
-  "use cache"
-  cacheLife("days")
-  cacheTag("startups")
-  try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_STARTUPS_DB_ID!,
-      filter: {
-        and: [
-          { property: "Published", checkbox: { equals: true } },
-          { property: "Country", multi_select: { contains: country } },
-        ],
-      },
-      sorts: [{ property: "Name", direction: "ascending" }],
-    })
-    return res.results.map(mapStartup)
-  } catch (e) {
-    console.error("fetchStartupsByCountry failed:", e)
-    return []
-  }
+  const all = await fetchStartups()
+  return all.filter((s) => s.country.includes(country as StartupCountry))
 }
 
 export async function fetchStartupsByStage(stage: string): Promise<Startup[]> {
-  "use cache"
-  cacheLife("days")
-  cacheTag("startups")
-  try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_STARTUPS_DB_ID!,
-      filter: {
-        and: [
-          { property: "Published", checkbox: { equals: true } },
-          { property: "Stage", select: { equals: stage } },
-        ],
-      },
-      sorts: [{ property: "Name", direction: "ascending" }],
-    })
-    return res.results.map(mapStartup)
-  } catch (e) {
-    console.error("fetchStartupsByStage failed:", e)
-    return []
-  }
+  const all = await fetchStartups()
+  return all.filter((s) => s.stage === stage)
 }
 
 export async function fetchStartupBySlug(slug: string): Promise<Startup | null> {
-  "use cache"
-  cacheLife("days")
-  cacheTag("startups")
-  try {
-    const res = await notion.databases.query({
-      database_id: process.env.NOTION_STARTUPS_DB_ID!,
-      filter: {
-        and: [
-          { property: "Published", checkbox: { equals: true } },
-          { property: "Slug", rich_text: { equals: slug } },
-        ],
-      },
-    })
-    if (res.results.length === 0) return null
-    return mapStartup(res.results[0])
-  } catch (e) {
-    console.error("fetchStartupBySlug failed:", e)
-    return null
-  }
+  // Reuse the cached full list to avoid a per-slug Notion query
+  // (which can timeout during prerender). Notion doesn't index Slug,
+  // so a filtered query is actually slower than a single full fetch.
+  const all = await fetchStartups()
+  return all.find((s) => s.slug === slug) ?? null
 }
 
 // ---------------------------------------------------------------------------
@@ -598,6 +538,11 @@ export interface StartupSubmissionData {
   country: string[]
   founded?: number
   founders?: string
+  hq?: string
+  linkedin?: string
+  twitter?: string
+  keyInvestors?: string
+  valuation?: string
 }
 
 export async function createStartupSubmission(data: StartupSubmissionData) {
@@ -626,6 +571,27 @@ export async function createStartupSubmission(data: StartupSubmissionData) {
   if (data.founders) {
     properties.Founders = {
       rich_text: [{ text: { content: data.founders } }],
+    }
+  }
+  if (data.hq) {
+    properties.HQ = {
+      rich_text: [{ text: { content: data.hq } }],
+    }
+  }
+  if (data.linkedin) {
+    properties.LinkedIn = { url: data.linkedin }
+  }
+  if (data.twitter) {
+    properties.Twitter = { url: data.twitter }
+  }
+  if (data.keyInvestors) {
+    properties["Key Investors"] = {
+      rich_text: [{ text: { content: data.keyInvestors } }],
+    }
+  }
+  if (data.valuation) {
+    properties.Valuation = {
+      rich_text: [{ text: { content: data.valuation } }],
     }
   }
 

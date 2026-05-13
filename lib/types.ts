@@ -137,6 +137,11 @@ export interface Startup {
   founders: string
   totalRaised: string
   website: string
+  linkedin: string
+  twitter: string
+  hq: string
+  keyInvestors: string
+  valuation: string
   featured: boolean
   hiring: boolean
   published: boolean

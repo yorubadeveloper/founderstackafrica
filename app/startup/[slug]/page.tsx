@@ -6,6 +6,8 @@ import {
   ArrowLeft,
   ArrowSquareOut,
   Lightning,
+  LinkedinLogo,
+  TwitterLogo,
 } from "@phosphor-icons/react/dist/ssr"
 import { fetchStartupBySlug, fetchStartups, fetchStartupsBySector } from "@/lib/notion"
 import { CountryChip } from "@/components/CountryChip"
@@ -112,6 +114,28 @@ export default async function StartupPage({ params }: Props) {
               </a>
             )}
             <ShareButton title={`${startup.name} - ${startup.tagline}`} text={`Check out ${startup.name} on FounderStack Africa: ${startup.tagline}`} />
+            {startup.linkedin && (
+              <a
+                href={startup.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${startup.name} on LinkedIn`}
+                className="inline-flex items-center justify-center rounded-full text-sm font-medium h-9 w-9 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+              >
+                <LinkedinLogo size={16} />
+              </a>
+            )}
+            {startup.twitter && (
+              <a
+                href={startup.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${startup.name} on Twitter`}
+                className="inline-flex items-center justify-center rounded-full text-sm font-medium h-9 w-9 shadow-btn text-muted-foreground hover:text-foreground transition-all"
+              >
+                <TwitterLogo size={16} />
+              </a>
+            )}
             {startup.hiring && (
               <span
                 className="inline-flex items-center gap-1.5 text-sm font-medium rounded-full h-9 px-4"
@@ -164,7 +188,7 @@ export default async function StartupPage({ params }: Props) {
           </div>
 
           {/* Extra details */}
-          {(startup.founded || startup.founders) && (
+          {(startup.founded || startup.founders || startup.hq || startup.valuation || startup.keyInvestors) && (
             <>
               <div className="h-px bg-border my-6" />
               <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -176,12 +200,36 @@ export default async function StartupPage({ params }: Props) {
                     <span className="text-foreground">{startup.founded}</span>
                   </div>
                 )}
+                {startup.hq && (
+                  <div>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                      Headquarters
+                    </p>
+                    <span className="text-foreground">{startup.hq}</span>
+                  </div>
+                )}
                 {startup.founders && (
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Founders
                     </p>
                     <span className="text-foreground">{startup.founders}</span>
+                  </div>
+                )}
+                {startup.valuation && (
+                  <div>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                      Valuation
+                    </p>
+                    <span className="text-foreground">{startup.valuation}</span>
+                  </div>
+                )}
+                {startup.keyInvestors && (
+                  <div className="col-span-2">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                      Key Investors
+                    </p>
+                    <span className="text-foreground">{startup.keyInvestors}</span>
                   </div>
                 )}
               </div>
@@ -214,6 +262,9 @@ export default async function StartupPage({ params }: Props) {
               description: startup.tagline || startup.description,
               ...(startup.website && { url: startup.website }),
               ...(startup.founded && { foundingDate: String(startup.founded) }),
+              ...((startup.linkedin || startup.twitter) && {
+                sameAs: [startup.linkedin, startup.twitter].filter(Boolean),
+              }),
               ...(startup.country.length > 0 && {
                 areaServed: startup.country.map((c) => ({
                   "@type": "Place",
